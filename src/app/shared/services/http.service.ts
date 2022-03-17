@@ -11,8 +11,8 @@ export class HttpService {
   ) { }
 
 
-   getXuy(){
-    return this.http.get('http://localhost:3000/cum')
+   getData(){
+    return this.http.get('http://localhost:3000/data')
   }
 
 

@@ -38,193 +38,6 @@ export class MainComponent implements OnInit {
    
   elArray: {link: string, num?: number, tags?: string, description?: string, urn?: string}[]
 
-/*
-   elArray: {link: string, num?: number, tags?: string, description?: string, urn?: string}[]= [
-    {
-      link: 'https://sun9-35.userapi.com/impg/0W0o665dWRAdfEsOCWnpx0PM7WsK5JHZChodPQ/oDCUIByU4uk.jpg?size=650x650&quality=96&sign=a5e85ed1273480110fc7fec47aeaebfd&type=album',
-      num: 382111,
-      tags: "двигатель стирлинга, стирлинг, стирлинга двигатель",
-      description: "",
-      urn: "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEyLTU4LTIyLWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLyVEMCVBMSVEMCVCMSVEMCVCRSVEMSU4MCVEMCVCQSVEMCVCMDEuU1RFUA"
-    },
-    {
-      link: 'https://sun9-65.userapi.com/impg/FE0yFpNL1a7sC4je-KPSzllnwrVlqQuTw2nvSA/ARCHvoyZRVg.jpg?size=445x445&quality=96&sign=2dccf1add48960144fdc13010a936fc8&type=album',
-      num: 711111,
-      tags: "кольца+кольцо+диски+диск+крышки+крышка+блоки+блок",
-      description: "",
-      urn: "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTExLTQ0LTE3LWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTExMS5pcHQ"
-    },
-    {
-      link: 'https://sun9-83.userapi.com/impg/7Wk2hkGaYS32OfZfS-Ufa0OFDPJsvuMaVQmg2A/P18AtGho0ZM.jpg?size=723x516&quality=96&sign=651cb6b2566c29f99fb2af5f9c1d1406&type=album',
-      num: 711112,
-      tags: "кольца+кольцо+диски+диск+крышки+крышка+блоки+блок",
-      description: "",
-      urn: "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTExLTQ0LTIyLWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTExMi5pcHQ"
-    },
-    {
-      link: 'https://sun9-86.userapi.com/impg/sZit2h6tP-x_StjRy27jC5Qlly8Dbm2xSxc8Ng/7rHMTdONU4s.jpg?size=443x443&quality=96&sign=65cea4dbb8b77e7c7a35c2c03b1d0541&type=album',
-      num: 711113,
-      tags: "кольца+кольцо+диски+диск+крышки+крышка+блоки+блок",
-      description: "",
-      urn: "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTExLTQ0LTI2LWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTExMy5pcHQ"
-    },
-    {
-      link: 'https://sun9-35.userapi.com/impg/PmqWDpJ3ExZKoiJcmLqhpKqcrTA5eGTiGMwFnA/3ZtMNHkikpo.jpg?size=725x517&quality=96&sign=fb8d64ecb128bf24235b0b072c54c8d8&type=album',
-      num: 711114,
-      tags: "кольца+кольцо+диски+диск+крышки+крышка+блоки+блок",
-      description: "",
-      urn: "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM3LTQzLWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTExNC5pcHQ"
-    },
-    {
-      link: 'https://sun9-72.userapi.com/impg/LuEPmx1LiHwgYmjsKdWhZjHW3LzStTfH7mIBDQ/hcLuW8Dy9aI.jpg?size=448x448&quality=96&sign=9151930a20dced6a81dfd44754c2a0e4&type=album',
-      num: 711115,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      description: "",
-      urn: "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM3LTQ4LWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTExNS5pcHQ"
-    },
-    {
-      link: 'https://sun9-81.userapi.com/impg/0D_aOpfRsBT2gAiETTBfgEz-rWicAao6NRojrA/LJV38zq_7Zg.jpg?size=502x503&quality=96&sign=dd7d9b6b9f7470836c231a6f026a95da&type=album',
-      num: 711116,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      description: "",
-      urn: "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM3LTUzLWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTExNi5pcHQ"
-    },
-    {
-      link: 'https://sun9-82.userapi.com/impg/2X6Y5HlLiqKKDNA9bPM2bV6lEjQYxqa1ysoC_Q/s54FKe-6upw.jpg?size=758x541&quality=96&sign=3f68165654e814d5a27dfcfb54fa115f&type=album',
-      num: 711117,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      description: "",
-      urn: "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM3LTU3LWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTExNy5pcHQ"
-    },
-    {
-      link: 'https://sun9-86.userapi.com/impg/U9clFl-dnXiZ1ard1K1U2O9JvL1F9GvL3B0Rbg/eyboZPKL9t4.jpg?size=525x526&quality=96&sign=cf4d9e76cda25c81d70ed66cb0e3eeb8&type=album',
-      num: 711118,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      description: "",
-      urn: "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM4LTAxLWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTExOC5pcHQ"
-    },
-    {
-      link: 'https://sun9-88.userapi.com/impg/g_SNCaHgg-4RyselCbnxFNNrpZueHhCoIFPjlg/Mv_OhkSXcBo.jpg?size=500x500&quality=96&sign=b57dff08e772a63c1e5b0fb8e7d7ea6a&type=album',
-      num: 711121,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      description: "",
-      urn: "dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM4LTA1LWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTEyMS5pcHQ"
-    },
-    {
-      link: 'https://sun9-88.userapi.com/impg/xUHeH29vCODWOYzTn9tLqVkdO1h3QpVkQbQgrg/TGUqWHHgkU0.jpg?size=739x528&quality=96&sign=b694d7f724dfdb2ae62c628578baa5a4&type=album',
-      num: 711123,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      urn: 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM4LTE0LWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTEyMy5pcHQ'
-    },
-    {
-      link: 'https://sun9-63.userapi.com/impg/7sY6GRAJ7-n7A24OzlUpY5p_8WKFvR4RCSHHug/Eevanv9B-WA.jpg?size=484x484&quality=96&sign=c71eaff6925cb862b57481ff47bc6004&type=album',
-      num: 711125,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      urn: 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM4LTI2LWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTEyNS5pcHQ'
-    },
-    {
-      link: 'https://sun9-70.userapi.com/impg/_y-958TwAJJoKr_RsJuGgz_LXdOS5yz2Fr_bsA/osXb9czXosQ.jpg?size=492x491&quality=96&sign=a9d4123159b62d65c17b12a425f71ec9&type=album',
-      num: 711127,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      urn: 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM4LTM1LWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTEyNy5pcHQ'
-    },
-    {
-      link: 'https://sun9-2.userapi.com/impg/YiExKYlzyJe5YGBc05XoaLvafSfs0hEZe6e27g/Vdwa1tOOan8.jpg?size=498x498&quality=96&sign=9a53dc087e8dab0de93e98d720f85f0d&type=album',
-      num: 711131,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      urn: 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM4LTQ0LWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTEzMS5pcHQ'
-    },
-    {
-      link: 'https://sun9-35.userapi.com/impg/9Kdnfd75oOKYCrLAb9T-dbIBKiWakrZHidufYQ/gUiLcaFNa0g.jpg?size=477x478&quality=96&sign=02beb9d57ccbc420cd828969ac5c5b85&type=album',
-      num: 711132,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      urn: 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM4LTQ5LWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTEzMi5pcHQ'
-    },
-    {
-      link: 'https://sun9-34.userapi.com/impg/kyosI0oJPxqRjjk5lnEY4CPoqzOeQgQHc4Nfqw/owuwk7e4_xE.jpg?size=504x504&quality=96&sign=c3d89fa1cc66fc185dbdc31958523e94&type=album',
-      num: 711133,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      urn: 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM4LTUzLWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTEzMy5pcHQ'
-    },
-    {
-      link: 'https://sun9-74.userapi.com/impg/HxGrZmjDxlrgkbGGCkBeXIXKKibn12SN-nYu8g/ciU3UedKsAM.jpg?size=503x503&quality=96&sign=6645937eaf4ae847fbdc964ac32f4fab&type=album',
-      num: 711134,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      urn: 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM4LTU3LWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTEzNC5pcHQ'
-    }, 
-    {
-      link: 'https://sun9-7.userapi.com/impg/096G6XurYHYwM8zFvNsC2B-WwFSeD0TXiS-jMw/jCQydRsrSnY.jpg?size=473x473&quality=96&sign=cd9010e129a047fc2d26c19577dbb1f0&type=album',
-      num: 711135,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      urn: 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM5LTAxLWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTEzNS5pcHQ'
-    },
-    {
-      link: 'https://sun9-34.userapi.com/impg/7Me5k7JYJ2DyZfeuaPp-wSxxsQGOaup8HZ5nZw/nm1uRi4-mN8.jpg?size=467x466&quality=96&sign=fac5be2699d77aeb5ee2c9e4cc85d532&type=album',
-      num: 711136,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      urn: 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM5LTA1LWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTEzNi5pcHQ'
-    },
-    {
-      link: 'https://sun9-7.userapi.com/impg/q-KiW06BqUJ_quXWaYruxbjIV6hsqjKjabhH3g/uN7z6Qpoov8.jpg?size=488x488&quality=96&sign=92f0a263e5d4e0d7f6c60f53bae9a832&type=album',
-      num: 711137,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      urn: 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM5LTEyLWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTEzNy5pcHQ'
-    },
-    {
-      link: 'https://sun9-81.userapi.com/impg/j-NO78Kcz_4QA6Ek1FbnVDfODM6KByYTa2vYdQ/uIV2V4ogJ28.jpg?size=453x453&quality=96&sign=19bf16ea918c6d8fddacee6f12dfc9da&type=album',
-      num: 711141,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      urn: 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM5LTI5LWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTE0MS5pcHQ'
-    },
-    {
-      link: 'https://sun9-30.userapi.com/impg/F88MRZcR3VaWfJRecBIYHgR4fRH6s7AEno61Jg/F3n1VNswQHY.jpg?size=461x461&quality=96&sign=2248e17b7a94cbc4e41c8186460946ac&type=album',
-      num: 711142,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      urn: 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM5LTMzLWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTE0Mi5pcHQ'
-    },
-    {
-      link: 'https://sun9-63.userapi.com/impg/gA9IQr_vn_M7RCkuvlD2vX34k3qdLPyx6qMnog/Gq9vtgWRJyQ.jpg?size=647x463&quality=96&sign=2424ff97c46d6fbc773f8e9ae0b5e624&type=album',
-      num: 711143,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      urn: 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM5LTM2LWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTE0My5pcHQ'
-    },
-    {
-      link: 'https://sun9-70.userapi.com/impg/zLE18ImqXBMH-92d_I0RY7uTpo7SwnRTb6XRwA/dERk5fTVjRk.jpg?size=461x461&quality=96&sign=a0f021a69b847eaa4833ae79a7d9d863&type=album',
-      num: 711145,
-      tags: 'кольца+кольцо+диски+диск+крышки+крышка+блоки+блок',
-      urn: 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEzLTM5LTQ3LWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLzcxMTE0NS5pcHQ'
-    },
-    {
-      link: 'https://sun9-5.userapi.com/impg/gE32j6oWprM3k0uwMg2ZjftmyPSfYIzWVTCZWw/6ivVecMWJVo.jpg?size=736x526&quality=96&sign=2eb67b7d7b1b1e63fd0b1afebf5d76c8&type=album',
-      num: 721112,
-      tags: 'колеса зубчатые колеса колесо зубчатое колесо',
-      urn: ''
-    },
-    {
-      link: 'https://sun9-73.userapi.com/impg/Brd0gG2XF26wvJFEdTTgkzcdJV9sXRSivryZ3g/GBDiDy3dsM8.jpg?size=710x507&quality=96&sign=68b11055ea9a4f8c3774845921488912&type=album',
-      num: 721114,
-      tags: 'колеса зубчатые колеса колесо зубчатое колесо',
-      urn: ''
-    },
-    {
-      link: 'https://sun9-85.userapi.com/impg/2bmOcRVn1sK93dPZNlHUss_9BmZkyrRZldLgEQ/x0l07TURQm4.jpg?size=721x515&quality=96&sign=2de8a6e0c51ae74e1d5809247b4259db&type=album',
-      num: 721115,
-      tags: 'колеса зубчатые колеса колесо зубчатое колесо',
-      urn: ''
-    },
-    {
-      link: 'https://sun9-59.userapi.com/impg/YHpGBhesORoSRrW9G0lF7gQOy1zQJsvUVDy7xw/cNHDUnJDpU0.jpg?size=719x513&quality=96&sign=832aacbd3912c54d2bf11ac3e0e28af3&type=album',
-      num: 721116,
-      tags: 'колеса зубчатые колеса колесо зубчатое колесо',
-      urn: ''
-    }
-
-    
-    
-  ];
-*/
-
-
   treeclass: {parent: number, classNum: number, caption: string}[]= [
     { parent: 0,
       classNum: 38,
@@ -493,11 +306,14 @@ export class MainComponent implements OnInit {
     }
   ]
 
-  async AddClassDisctiption(){
-    for(let classitem of this.elArray){
+  //TODO сломалось добавление описания к классу
+  //не работает поиск по описанию  
+  AddClassDisctiption(){
+    console.log('тут')
+    /*for(let classitem of this.elArray){
+      console.log('и тут')
       if(classitem.num != undefined)
       {
-        
         this.classDiscription = [];
         this.updateSearchArray(classitem.num.toString())
         for(let cl of this.elArray){
@@ -505,7 +321,6 @@ export class MainComponent implements OnInit {
             for (let i = 1; i <=  this.substrArray.length; i++){
               for (let arr of this.treeclass){
                 if (arr.classNum.toString() == this.substrArray[i]){
-                  //console.log('добавлено описание к классу')
                   this.classDiscription[i-1] = arr.caption;
                   break;
                 }
@@ -521,7 +336,8 @@ export class MainComponent implements OnInit {
       
 
     }
-    //console.log(this.elArray[1].description)
+    */
+    console.log("Описание элеманта: " + this.elArray[1].description)
   }
   
   DOCUMENT_URN = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEyLTU4LTIyLWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLyVEMCVBMSVEMCVCMSVEMCVCRSVEMSU4MCVEMCVCQSVEMCVCMDEuU1RFUA'; 
@@ -590,7 +406,7 @@ export class MainComponent implements OnInit {
 
     this.http.getToken().subscribe((data:any) => this.token = new Token(data.access_token, data.expires_in));
     
-    this.http.getXuy().subscribe((res: any) => {
+    this.http.getData().subscribe((res: any) => {
       this.elArray = res
       //console.log(this.elArray)
     });
@@ -604,7 +420,7 @@ export class MainComponent implements OnInit {
           onGetAccessToken: (token: string, expire: number) => void
         ) => {
           onGetAccessToken(this.token.access_token, this.token.expires_in);
-          console.log(this.token.access_token)
+          //console.log(this.token.access_token)
           // const expireTimeSeconds = 60 * 30;
           // onGetAccessToken(ACCESS_TOKEN, expireTimeSeconds);
         },
@@ -629,6 +445,12 @@ export class MainComponent implements OnInit {
       // Set specific version number
       //version: "7.41"
     };
+
+
+
+    
+
+
   }
 
   public selectionChanged(event: SelectionChangedEventArgs) {
@@ -639,7 +461,8 @@ export class MainComponent implements OnInit {
   classviewdisplay = "none";
   shadowDisplay = "none";
   drawingDisplay = "none";
-  forgeViewerDisplay = "block"
+  forgeViewerDisplay = "block";
+  
 
   ngAfterViewInit(){
     this.treeDisplay = "none";
@@ -647,7 +470,9 @@ export class MainComponent implements OnInit {
     this.shadowDisplay = "none";
     this.drawingDisplay = "none";
     // this.forgeViewerDisplay = "block"
+    //console.log('qweqeqweqw');
     this.AddClassDisctiption();
+    
   }
 
   CreateChildren(parentNum: string){

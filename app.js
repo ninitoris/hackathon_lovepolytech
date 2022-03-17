@@ -34,12 +34,6 @@ app.set("view engine", "hbs");
  
 app.listen(3000, function(){
   console.log("Сервер ожидает подключения...");
-    // pool.query("SELECT * FROM Types", function(err, data){
-    //     if(err) return console.log(err);
-    //     console.log(data);
-    // })
-    
-
 });
 
 app.use(function (req, res, next) {
@@ -49,7 +43,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get("/cum", function(req, res){
+app.get("/data", function(req, res){
     pool.query("SELECT * FROM Types", function(err, data){
         if(err) return console.log(err);
         data = data.map(el => {
@@ -62,8 +56,9 @@ app.get("/cum", function(req, res){
         })
         res.json(data)
     })
-    
+
 })
+
 app.get('/oauth', function (req, res) {//авторизация в Forge
     Axios({
         method: 'POST',
