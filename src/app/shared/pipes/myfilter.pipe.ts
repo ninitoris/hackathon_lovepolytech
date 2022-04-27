@@ -8,8 +8,14 @@ export class MyfilterPipe implements PipeTransform {
   transform(eskdclass: any[], searchCat: string): any {
     let filterCat = searchCat;
     let filteredValues: never[] = [];
-    if((filterCat != "" || filterCat != null)) {
+    
+
+
+    if((filterCat != "" )) {
       return filteredValues ? eskdclass.filter(eskdclass => (String(eskdclass.num) + " " + eskdclass.tags + " " + eskdclass.discription).toLowerCase().indexOf(filterCat.toLowerCase()) !== -1) : eskdclass;
+    } else 
+    {
+      return eskdclass;
     };
   }
 

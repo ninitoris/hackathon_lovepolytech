@@ -1,0 +1,62 @@
+//функция, заполняющая TreeView из базы данных: 
+
+//this is c# code
+private void Fill_treeview() { 
+
+    string command_classes = "SELECT * FROM Classes"; 
+    string command_sublasses = "SELECT * FROM Subclasses"; 
+    string command_groups = "SELECT * FROM Groups"; 
+    string command_subgroups = "SELECT * FROM Subgroup"; 
+    string command_types = "SELECT * FROM Types"; 
+    DataTable table_classes = MySQL.FillDataTable(command_classes); 
+    DataTable table_subclasses = MySQL.FillDataTable(command_sublasses); 
+    DataTable table_groups = MySQL.FillDataTable(command_groups); 
+    DataTable table_subgroups = MySQL.FillDataTable(command_subgroups); 
+    DataTable table_types = MySQL.FillDataTable(command_types); 
+    // MessageBox.Show(table.ToString()); 
+
+    foreach (DataRow row_classes in table_classes.Rows) 
+    { 
+        TreeNode node_class = new TreeNode(row_classes["Class_num"].ToString()+"-"+row_classes["Class_name"].ToString()); 
+        treeView_eskd.Nodes.Add(node_class); 
+        foreach (DataRow row_subclasses in table_subclasses.Rows) { 
+            TreeNode node_subclass = null; 
+            if (row_classes["Class_num"].ToString() == row_subclasses["class_num"].ToString()) 
+            { 
+                node_subclass = new TreeNode(row_subclasses["subclass_id"].ToString() + "-" + row_subclasses["subclass_name"].ToString()); 
+                node_class.Nodes.Add(node_subclass); 
+            } 
+            foreach (DataRow row_groups in table_groups.Rows) 
+            { 
+                TreeNode node_groups = null; 
+                if (row_subclasses["subclass_id"].ToString() == row_groups["sublass_num"].ToString()) 
+                { 
+                    node_groups = new TreeNode(row_groups["group_id"].ToString() + "-" + row_groups["group_name"].ToString()); 
+                    if (node_subclass != null) 
+                    node_subclass.Nodes.Add(node_groups); 
+                } 
+
+                foreach (DataRow row_subgroups in table_subgroups.Rows) 
+                { 
+                    TreeNode node_subgroups = null; 
+                    if (row_groups["group_id"].ToString() == row_subgroups["group_id"].ToString()) 
+                    { 
+                        node_subgroups = new TreeNode(row_subgroups["subroup_id"].ToString() + "-" + row_subgroups["subroup_name"].ToString()); 
+                        if (node_groups != null) 
+                        node_groups.Nodes.Add(node_subgroups); 
+                    } 
+                    foreach (DataRow row_types in table_types.Rows) 
+                    { 
+                        if (row_subgroups["subroup_id"].ToString() == row_types["subgroup_id"].ToString()) 
+                        { 
+                            TreeNode node_types = new TreeNode(row_types["type_id"].ToString() + "-" + row_types["type_name"].ToString()); 
+                            if (node_subgroups != null) 
+                            node_subgroups.Nodes.Add(node_types); 
+                        } 
+                    } 
+                } 
+            } 
+        } 
+        //if(row["Class_num"].ToString()==) 
+    } 
+}

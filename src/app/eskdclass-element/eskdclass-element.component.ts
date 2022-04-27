@@ -8,7 +8,7 @@ import { EventEmitter } from '@angular/core';
 })
 export class ESKDClassElementComponent implements OnInit {
 
-  @Input() eskdclass!: {link: string, num: number, tags?: string, discription?: string }
+  @Input() eskdclass!: {pictureLink: string, num?: number, tags?: string, discription?: string }
 
   @Output() emitClassNum = new EventEmitter<number>();
   @Output() displayClassView = new EventEmitter<boolean>();

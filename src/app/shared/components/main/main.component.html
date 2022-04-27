@@ -2,7 +2,7 @@
 
 
 <div id="mainESKDDiv">
-    <div class="container-lg">
+    <div class="container-md">
         <div class="firstrow">
             <div class=" firstrow-item"></div>
             <div class="tree firstrow-item">
@@ -16,7 +16,9 @@
                 class="form-control" 
                 [(ngModel)]="searchCat"
                 placeholder="Поиск класса"
-                (input)="onSearchChange($event)"
+                (keyup)="onSearchChange($event)"
+                (input)="onSearchInput($event)"
+                id="filterInput"
                 >
             </div>
         </div>
@@ -61,13 +63,31 @@
     </div>
 </div>
 </div>
-<div class="main-gallery-view container" id="main-gallery-view">
-    <app-eskdclass-element *ngFor="let elData of elArray | myfilter: searchCat" 
-    [eskdclass]="elData" (emitClassNum)="ChangeClassNum($event)" 
-    (displayClassView)="displayClassView($event)">
-</app-eskdclass-element>
+
+<!--
+
+    main-gallery-view
+
+-->
+    <div class="main-gallery-view container" id="main-gallery-view">
+        
+        <app-eskdclass-element *ngFor="let elData of currentItemsToShow" 
+        [eskdclass]="elData" (emitClassNum)="ChangeClassNum($event)" 
+        (displayClassView)="displayClassView($event)">
+    </app-eskdclass-element>
+    </div>
+
+    <mat-paginator #paginator
+(page)="onPageChange($event)"
+[length]="arraylength"
+              [pageSize]="12"
+              [pageSizeOptions]="[6, 12, 24, 100]">
+</mat-paginator>
+
+
 </div>
-</div>
+
+
 
 <div id="shadow" (click)="HideShadowBox()" 
 [style.display]="shadowDisplay"></div>
@@ -78,16 +98,20 @@
             <div class="classViewGrid">
 
 
-
+                <div class="viewer-btn-close">
+                    <button type="button" class="my-btn-close" 
+                    aria-label="Close"(click)="HideShadowBox()"></button>
+                </div>
 
                 <div id="mainForgeViewerDiv" [style.display]="forgeViewerDisplay">
                     <adsk-forge-viewer [viewerOptions]="viewerOptions" 
                     (onSelectionChanged)="selectionChanged($event)"></adsk-forge-viewer>
                 </div>
                 <div class="imgcontainer"  [style.display]="drawingDisplay">
-                    <img src={{item.link}}>
+                    <img src={{item.pictureLink}}>
                 </div>
                 <div class="textcontainer">
+                    
                     <div class="number">
                         <h3>Код: {{item.num}}</h3>
                     </div>
@@ -99,6 +123,10 @@
                     </div>
                     <div class="buttonContainer">
                         <button class="btn btn-dark" (click)='showDrawing()'>Чертёж</button>
+                        <!-- 
+                            <button class="btn btn-dark" id="btn-download" (click)='donwloadModel()'>Скачать</button>
+                        -->
+                        
                     </div>
                 </div>
             </div>

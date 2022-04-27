@@ -1,12 +1,12 @@
 <div class="themed-grid-col">
     <div class="element-container" (click)="openClassView()">
         <div class="image-container">
-            <ng-container *ngIf="eskdclass.link == null || eskdclass.link == undefined">
+            <ng-container *ngIf="eskdclass.pictureLink == null || eskdclass.pictureLink == undefined">
                 <img src="https://sun9-21.userapi.com/impg/ZzFnbzYat3N3yh-pkihXjExjyH7hn6bCFbgpGQ/UAa43ZzCcOo.jpg?size=843x1300&quality=96&sign=ecea246ad7884966086deec786890888&type=album">
                 
             </ng-container>
-            <ng-container *ngIf="eskdclass.link != null || eskdclass.link != undefined">
-                <img src={{eskdclass.link}}>
+            <ng-container *ngIf="eskdclass.pictureLink != null || eskdclass.pictureLink != undefined">
+                <img src={{eskdclass.pictureLink}}>
                 
             </ng-container>
             

@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import { literalMap } from '@angular/compiler';
-import { Component, Input, OnInit, EventEmitter} from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, ViewChild} from '@angular/core';
 import {
   ViewerOptions,
   ViewerInitializedEvent,
@@ -12,19 +12,23 @@ import { HttpService } from '../../services/http.service';
 import { MyExtension } from "./my-extension";
 import {Token} from '../../../token';
 
+import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
+import { NgbTypeaheadWindow } from '@ng-bootstrap/ng-bootstrap/typeahead/typeahead-window';
+
+
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
-})
+}) 
 
 
 
 export class MainComponent implements OnInit {
 
   
-  
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   public viewerOptions: ViewerOptions;
 
   searchCat = '';
@@ -36,7 +40,27 @@ export class MainComponent implements OnInit {
   
    emptylink = 'https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg';
    
-  elArray: {link: string, num?: number, tags?: string, description?: string, urn?: string}[]
+  elArray: {pictureLink: string, num?: number, tags?: string, description?: string, urn?: string}[]
+  elArrayFilered: {pictureLink: string, num?: number, tags?: string, description?: string, urn?: string}[]
+
+
+
+  //71xxxx
+  classes : {num: number, description: string}[];
+
+  //712xxx
+  subclasses : {num: number, description: string}[];
+
+  //7123xx
+  groups : {num: number, description: string}[];
+
+  //71234x
+  subgroups : {num: number, description: string}[];
+
+  //123456
+  types : {num: number, description: string, urn?: string, pictureLink?: string}[];
+
+
 
   treeclass: {parent: number, classNum: number, caption: string}[]= [
     { parent: 0,
@@ -309,7 +333,7 @@ export class MainComponent implements OnInit {
   //TODO сломалось добавление описания к классу
   //не работает поиск по описанию  
   AddClassDisctiption(){
-    console.log('тут')
+    //console.log('тут')
     /*for(let classitem of this.elArray){
       console.log('и тут')
       if(classitem.num != undefined)
@@ -337,24 +361,25 @@ export class MainComponent implements OnInit {
 
     }
     */
-    console.log("Описание элеманта: " + this.elArray[1].description)
+    //console.log("Описание элеманта: " + this.elArray[1].description)
   }
   
   DOCUMENT_URN = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEyLTU4LTIyLWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLyVEMCVBMSVEMCVCMSVEMCVCRSVEMSU4MCVEMCVCQSVEMCVCMDEuU1RFUA'; 
 
   currentParent = 0;
+
+  //tree element click event to update search box
   treeElClick(classNum: number){
     this.searchCat = classNum.toString();
     this.currentParent = classNum;
     this.updateSearchArray(this.searchCat)
-    
-
-
   }
 
   substrArray: {}[] = ['0']
 
+  //search editbox text changed event
   onSearchChange(event: any) {  
+    //console.log('keyup event fired')
     let newVal = event.target.value;
     if (newVal === ""){
       this.currentParent = 0;
@@ -362,7 +387,68 @@ export class MainComponent implements OnInit {
       this.currentParent = newVal;
       this.updateSearchArray(this.searchCat)
     }
+    this.filterArr(this.searchCat)
   }
+
+  onSearchInput(event: any){
+    //console.log('input event fired ' + event.target.value)
+    if(this.searchCat == ""){
+      this.filterArr(this.searchCat)
+    }
+    
+  }
+
+
+
+  filterArr(str: string){
+    if (str != ""){
+      this.elArrayFilered = [];
+
+      //filter class nums
+      for (let el of this.elArray){
+        if(el.num != undefined && el.num.toString().indexOf(str) > -1){
+          this.elArrayFilered.push(el)
+        }
+      }
+      this.paginate();
+    }else{
+      this.elArrayFilered = this.elArray
+      this.paginate();
+    }
+  }
+
+  paginate(){
+    this.arraylength = this.elArrayFilered.length;
+    this.currentItemsToShow =  
+    this.elArrayFilered.slice(
+      this.pageIndex*this.pageSize, 
+    this.pageIndex*this.pageSize + this.pageSize);
+
+    //проверить, что длина отсортированного массива не меньше, чем элемент на текущей странице
+    //если меньше, то сбросить страницу
+    //
+    //check if sorted array length is less than current element offset (page index * page size) 
+    //if so then reset page index
+    if (this.arraylength < this.pageSize* this.pageIndex + 1){
+      this.paginator.firstPage();
+    }
+  }
+
+  pageSize = 12;
+  pageIndex = 0;
+
+  //page change event for paginator
+  onPageChange($event: any){
+    this.pageSize = $event.pageSize
+    this.pageIndex = $event.pageIndex
+    this.paginate();
+  }
+
+  //array of items sorted by paginator
+  currentItemsToShow: { 
+    pictureLink: string; num?: number | undefined; tags?: string | undefined; description?: string | undefined; urn?: string | undefined; 
+  }[];
+
 
   updateSearchArray(searchCat: string){
     this.substrArray = ['0']
@@ -400,19 +486,59 @@ export class MainComponent implements OnInit {
   }
 
   
+  donwloadModel(){
+    //console.log(this.emitClassNum)
+    //window.open('http://localhost:3001/files/' + this.emitClassNum + '.ipt', '_blank');
+    window.open('http://194.58.103.233:3001/files/' + this.emitClassNum + '.ipt', '_blank');
+  }
+
+
+
   public  token: Token;
 
+  arraylength = 0;
+
   public ngOnInit() {
+    //console.log('Init()');
 
     this.http.getToken().subscribe((data:any) => this.token = new Token(data.access_token, data.expires_in));
     
-    this.http.getData().subscribe((res: any) => {
-      this.elArray = res
-      //console.log(this.elArray)
+    this.http.getClasses().subscribe((res: any) =>{
+      this.classes = res;
+      //console.log(this.classes);
     });
     
+    this.http.getSubClasses().subscribe((res: any) =>{
+      this.subclasses = res;
+      //console.log(this.subclasses);
+    });
+
+    this.http.getGroups().subscribe((res: any) =>{
+      this.groups = res;
+      //console.log(this.groups);
+    });
+
+    this.http.getSubGroups().subscribe((res: any) =>{
+      this.subgroups = res;
+      //console.log(this.subgroups);
+    });
+
+    this.http.getTypes().subscribe((res: any) =>{
+      this.types = res;
+      //console.log(this.types);
+    });
     
 
+    this.http.getTypes().subscribe((res: any) => {
+      this.elArray = res;
+      this.elArrayFilered = res;
+      //console.log(this.elArray)
+      this.currentItemsToShow = this.elArray.slice(0, 12);
+      this.arraylength = this.elArray.length;
+
+    });
+
+    //forge viewer initialization
     this.viewerOptions = {
       initializerOptions: {
         env: "AutodeskProduction",
@@ -445,12 +571,6 @@ export class MainComponent implements OnInit {
       // Set specific version number
       //version: "7.41"
     };
-
-
-
-    
-
-
   }
 
   public selectionChanged(event: SelectionChangedEventArgs) {
@@ -463,7 +583,6 @@ export class MainComponent implements OnInit {
   drawingDisplay = "none";
   forgeViewerDisplay = "block";
   
-
   ngAfterViewInit(){
     this.treeDisplay = "none";
     this.classviewdisplay = "none";
@@ -502,7 +621,7 @@ export class MainComponent implements OnInit {
     this.updateSearchArray(this.searchCat)
   }
   
-  
+  //get class number from opened class model
   emitClassNum: number = 0;
   displayClassView(disp: boolean){
     if (disp){
@@ -524,6 +643,7 @@ export class MainComponent implements OnInit {
   }
 
   ShowClassView() {
+    //document.getElementById("mainForgeViewerDiv");
     this.classviewdisplay = "block"
     this.ShowShadowBox();
     this.AddToDisctiption();
@@ -538,6 +658,7 @@ export class MainComponent implements OnInit {
 
   classDiscription:string[] = [];
 
+  //add class description to class view container
   async AddToDisctiption(){
     this.classDiscription = [];
     this.updateSearchArray(this.emitClassNum.toString())
@@ -555,6 +676,7 @@ export class MainComponent implements OnInit {
     }
   }
 
+  //switch between 3d viewer and picture preview
   showDrawing(){
     if(this.drawingDisplay != "block"){
       this.drawingDisplay = "block";

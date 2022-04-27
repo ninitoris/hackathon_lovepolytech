@@ -1,5 +1,6 @@
 import { Extension } from 'ng2-adsk-forge-viewer';
-const Autodesk = globalThis.Autodesk;
+
+//const Autodesk = globalThis.Autodesk;
 const THREE = globalThis.THREE;
 
 export class MyExtension extends Extension {
@@ -26,12 +27,16 @@ export class MyExtension extends Extension {
     // Called when Forge Viewer loads your extension
     console.log('MyExtension loaded!');
     
-    this.viewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, (e) => {
-      if (e.dbIdArray.length) {
-        const dbId = e.dbIdArray[0];
-        this.viewer.setThemingColor(dbId, new THREE.Vector4(0, 1, 1,1));
-      }
-    });
+    if (Autodesk){
+      this.viewer.addEventListener(Autodesk.Viewing.SELECTION_CHANGED_EVENT, (e) => {
+        if (e.dbIdArray.length) {
+          const dbId = e.dbIdArray[0];
+          this.viewer.setThemingColor(dbId, new THREE.Vector4(0, 1, 1,1));
+        }
+      });
+    }else(
+      console.log('AUTODESK IS NOT DEFINED')
+    )
 
     // Initialise a toolbar
     if (this.viewer.toolbar) {
@@ -42,6 +47,8 @@ export class MyExtension extends Extension {
       this.onToolbarCreatedBinded = this.onToolbarCreated.bind(this);
       this.viewer.addEventListener(Autodesk.Viewing.TOOLBAR_CREATED_EVENT, this.onToolbarCreatedBinded);
     }
+    
+
 
     // Must return true or extension will fail to load
     return true;
@@ -63,6 +70,13 @@ export class MyExtension extends Extension {
     this.viewer.removeEventListener(Autodesk.Viewing.TOOLBAR_CREATED_EVENT, this.onToolbarCreatedBinded);
     this.onToolbarCreatedBinded = null;
     this.createUI();
+    const toolbarControls = [];
+    for (let i = 0; i < this.viewer.toolbar.getNumberOfControls(); i++) {
+      toolbarControls.push(this.viewer.toolbar.getControlId(i));
+    }
+    //toolbarControls.forEach(control => this.viewer.toolbar.removeControl(control));
+    toolbarControls.forEach(control => console.log(control));
+    
   }
 
   private createUI() {

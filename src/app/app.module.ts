@@ -11,6 +11,12 @@ import { MyfilterPipe } from './shared/pipes/myfilter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ViewerModule } from 'ng2-adsk-forge-viewer';
 import { HttpClientModule }   from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { FooterComponent } from './shared/components/footer/footer.component';
+
+
+
 
 @NgModule({
   declarations: [
@@ -18,7 +24,8 @@ import { HttpClientModule }   from '@angular/common/http';
     MainComponent,
     HeaderComponent,
     ESKDClassElementComponent,
-    MyfilterPipe
+    MyfilterPipe,
+    FooterComponent
     
   ],
   imports: [
@@ -28,7 +35,9 @@ import { HttpClientModule }   from '@angular/common/http';
     FormsModule,
     ReactiveFormsModule,
     ViewerModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatPaginatorModule
     
   ],
   bootstrap: [AppComponent]
