@@ -10,10 +10,15 @@ import { ESKDClassElementComponent } from './eskdclass-element/eskdclass-element
 import { MyfilterPipe } from './shared/pipes/myfilter.pipe';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ViewerModule } from 'ng2-adsk-forge-viewer';
-import { HttpClientModule }   from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS }   from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { LoginComponent } from './shared/components/login/login.component';
+import { ProfileComponent } from './shared/components/profile/profile.component';
+import { HTTPInterceptor } from './shared/http-interceptors/http-interceptor';
+import { RegisterComponent } from './shared/components/register/register.component';
+import { AlertComponent } from './shared/components/alert/alert.component';
 
 
 
@@ -25,7 +30,11 @@ import { FooterComponent } from './shared/components/footer/footer.component';
     HeaderComponent,
     ESKDClassElementComponent,
     MyfilterPipe,
-    FooterComponent
+    FooterComponent,
+    LoginComponent,
+    ProfileComponent,
+    RegisterComponent,
+    AlertComponent
     
   ],
   imports: [
@@ -40,6 +49,10 @@ import { FooterComponent } from './shared/components/footer/footer.component';
     MatPaginatorModule
     
   ],
-  bootstrap: [AppComponent]
+  providers:[
+    { provide: HTTP_INTERCEPTORS, useClass: HTTPInterceptor, multi: true },
+  ],
+  bootstrap: [AppComponent],
+  
 })
 export class AppModule { }

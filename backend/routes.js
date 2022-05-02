@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const filecontroller = require("./file.controller");
 const datacontroller = require("./data.controller");
-const oauth = require("./oauth.controller");
+const auth = require("./auth.controller");
 const { signupValidation, loginValidation } = require('./validation');
 
 
@@ -17,10 +17,10 @@ let routes = (app) => {
   router.get("/subgroups", datacontroller.getSubgroups);
   router.get("/types", datacontroller.getTypes);
   router.get("/users", datacontroller.getUsers);
-  router.get("/oauth", oauth.getForgeToken);
-  router.post("/login", loginValidation, oauth.postLogin);
-  router.post("/get-user", loginValidation, oauth.postGetUser);
-  router.post('/register', signupValidation, oauth.postRegister);
+  router.get("/oauth", auth.getForgeToken);
+  router.post("/login", loginValidation, auth.postLogin);
+  router.post("/get-user", loginValidation, auth.postGetUser);
+  router.post('/register', signupValidation, auth.postRegister);
 
 
   app.use(router);

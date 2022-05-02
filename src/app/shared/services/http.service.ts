@@ -10,7 +10,6 @@ export class HttpService {
     private http: HttpClient
   ) { }
 
-  
   ip = 'http://localhost';
   //ip = 'http://194.58.103.233';
   port = ':3001';
@@ -43,5 +42,7 @@ export class HttpService {
   getTypes(){
     return this.http.get(this.ip + this.port + '/types')
   }
+
+  
   
 }

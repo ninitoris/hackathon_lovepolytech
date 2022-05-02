@@ -24,14 +24,14 @@ const postRegister = (req, res, next) =>{
         (err, result) => {
             if (result.length) {
                 return res.status(409).send({
-                    msg: 'This user is already in use!'
+                    msg: 'Пользователь с таким логином уже существует'
                 });
             } else {
                 // username is available
                 bcrypt.hash(req.body.password, 5, (err, hash) => {
                     if (err) {
                         return res.status(500).send({
-                            msg: 'err1 ' + err
+                            msg: 'Error 500'
                         });
                     } else {
                         // has hashed password => add to database
@@ -47,7 +47,7 @@ const postRegister = (req, res, next) =>{
                                     });
                                 }
                                 return res.status(201).send({
-                                    msg: 'The user has been registerd with us!'
+                                    msg: 'The user has been registerd!'
                                 });
                             }
                         );
@@ -72,7 +72,7 @@ const postLogin = (req, res, next) => {
             }
             if (!result.length) {
                 return res.status(401).send({
-                    msg: 'user does not exists'
+                    msg: 'Неверный логин или пароль'
                 });
             }
             // check password
@@ -85,22 +85,23 @@ const postLogin = (req, res, next) => {
                     if (bErr) {
                         
                         return res.status(401).send({
-                            msg: 'wrong password!'
+                            msg: 'Неверный логин или пароль'
                         });
                     }
                     if (bResult) {
-                        const token = jwt.sign({ id: result[0].id }, 'the-super-strong-secrect', { expiresIn: '1h' });
-                        db.query(
-                            `UPDATE Users SET last_login = now() WHERE id = '${result[0].id}'`
-                        );
+                        const token = jwt.sign ({ id: result[0].id }, 'the-super-strong-secrect', { expiresIn: 60 });
+                        //нет поля last login в таблице
+                        // db.query(
+                        //     `UPDATE Users SET last_login = 'sosi' WHERE id = '${result[0].id}'`
+                        // );
                         return res.status(200).send({
                             msg: 'Logged in!',
                             token,
-                            user: result[0]
+                            user: result[0].login
                         });
                     }
                     return res.status(401).send({
-                        msg: 'wrong password!'
+                        msg: 'Неверный логин или пароль'
                     });
                 }
             );
@@ -116,17 +117,25 @@ const postGetUser = (req, res, next) => {
         !req.headers.authorization.split(' ')[1]
     ) {
         return res.status(422).json({
-            message: "Please provide the token",
+            message: "Please provide token",
         });
     }
     const theToken = req.headers.authorization.split(' ')[1];
-    const decoded = jwt.verify(theToken, 'the-super-strong-secrect');
-    db.query('SELECT * FROM Users where id=?', decoded.id, function (error, results, fields) {
+    try{
+        var decoded = jwt.verify(theToken, 'the-super-strong-secrect');
+
+    }catch (err){
+        return res.status(401).json({
+            message:"Unable to verify token"
+        })
+    }
+    db.query('SELECT login FROM Users where id=?', decoded.id, function (error, results, fields) {
         if (error) throw error;
-        return res.send({ error: false, data: results[0], message: 'Fetch Successfully.' });
+        return res.send({ error: false, login: results[0].login, message: 'Fetch Successfully.' });
     });
 }
 
+//autodesk token
 const getForgeToken = (req, res) =>{
     Axios({
         method: 'POST',

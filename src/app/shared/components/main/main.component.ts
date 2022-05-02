@@ -647,12 +647,13 @@ export class MainComponent implements OnInit {
     this.classviewdisplay = "block"
     this.ShowShadowBox();
     this.AddToDisctiption();
-
+    document.body.style.overflow = "hidden";
     
   }
 
   ShowShadowBox(){
     this.shadowDisplay = "block";
+
   }
 
 
