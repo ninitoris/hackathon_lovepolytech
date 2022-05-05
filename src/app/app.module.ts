@@ -19,6 +19,9 @@ import { ProfileComponent } from './shared/components/profile/profile.component'
 import { HTTPInterceptor } from './shared/http-interceptors/http-interceptor';
 import { RegisterComponent } from './shared/components/register/register.component';
 import { AlertComponent } from './shared/components/alert/alert.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { ProfileMainComponent } from './shared/components/profile/profile-main/profile-main.component';
 
 
 
@@ -34,7 +37,8 @@ import { AlertComponent } from './shared/components/alert/alert.component';
     LoginComponent,
     ProfileComponent,
     RegisterComponent,
-    AlertComponent
+    AlertComponent,
+    ProfileMainComponent
     
   ],
   imports: [
@@ -46,13 +50,14 @@ import { AlertComponent } from './shared/components/alert/alert.component';
     ViewerModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatPaginatorModule
-    
+    MatPaginatorModule,
+    MatTabsModule,
+    FontAwesomeModule    
   ],
   providers:[
     { provide: HTTP_INTERCEPTORS, useClass: HTTPInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
   
 })
 export class AppModule { }

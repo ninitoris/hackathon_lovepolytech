@@ -1,5 +1,5 @@
 const fs = require('fs');
-const dstpath = './del/';
+const dstpath = './models/';
 let Client = require('ssh2-sftp-client');
 let sftp = new Client();
 let remotePath = '/models/';
@@ -14,7 +14,11 @@ let config = {
 const getListFiles = (req, res) => {
     fs.readdir(dstpath, function(err, files){
         let fileInfos = [];
-
+        try{
+          sftp.end()
+        }catch(err){
+          console.log(err)
+        }
         sftp.connect(config).then(() => {
             return sftp.list('/models');
           }).then(data => {
@@ -23,13 +27,15 @@ const getListFiles = (req, res) => {
               }
             
           }).then(()=>{
+            sftp.end();
+        })
+          .then(()=>{
             res.status(200).send(fileInfos);
 
 
           })
-          .then(()=>{
-              sftp.end();
-          }).catch(err => {
+          
+          .catch(err => {
             console.log(err, 'catch error');
             res.send(err)
           });
@@ -38,6 +44,11 @@ const getListFiles = (req, res) => {
 
 const download = (req, res) => {
     const fileName = req.params.name;
+    try{
+      sftp.end()
+    }catch(err){
+      console.log(err)
+    }
     sftp.connect(config)
   .then(() => {
     return sftp.get(remotePath + fileName, dstpath + fileName);

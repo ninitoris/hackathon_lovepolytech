@@ -15,6 +15,8 @@ const { prototype } = require("events");
 let access_token = '';
 const scopes = 'data:read data:write data:create bucket:create bucket:read';
 
+const iterationsCount = 5;
+
 //register new user (add to users table)
 const postRegister = (req, res, next) =>{
     db.query(
@@ -58,6 +60,90 @@ const postRegister = (req, res, next) =>{
     );
 }
 
+const changePassword = (req, res, next) =>{
+    if (
+        !req.headers.authorization ||
+        !req.headers.authorization.startsWith('Bearer') ||
+        !req.headers.authorization.split(' ')[1]
+    ) {
+        return res.status(422).json({
+            message: "Did not get token",
+        });
+    }
+    const theToken = req.headers.authorization.split(' ')[1];
+    try{
+        var decoded = jwt.verify(theToken, 'the-super-strong-secrect');
+
+    }catch (err){
+        return res.status(401).json({
+            message:"Unable to verify token"
+        })
+    }
+    db.query('SELECT * FROM Users where id=?', decoded.id, function (error, results, fields) {
+        if (error) {
+            console.log(error);
+            return res.send(error)
+        }
+        id = results[0].id;
+        //check if password is correct
+        bcrypt.compare(
+            req.body.oldPassword,
+            results[0].password,
+            (bErr, bResult) => {
+                
+                // wrong password
+                if (bErr) {
+                    return res.status(401).send({
+                        msg: 'Неверный пароль'
+                    });
+                }
+                if (bResult) {
+                    //change password
+                    bcrypt.hash(req.body.newPassword, iterationsCount, (err, hash) => {
+                        if (err) {
+                            return res.status(500).send({
+                                msg: 'Error 500'
+                            });
+                        } else {
+                            // has hashed password => add to database
+                            // db.query(
+                        // `UPDATE Users SET password = '${}' WHERE id = '${result[0].id}'`
+                    // );
+                            db.query(
+                                 `UPDATE Users SET password = ${db.escape(hash)} WHERE id = ?`, results[0].id
+
+                                // `INSERT INTO Users (login, password, level) VALUES (${db.escape(
+                                //     req.body.login
+                                // )}, ${db.escape(hash)}, 1)`
+                                ,
+                                (err, result) => {
+                                    if (err) {
+                                        return res.status(400).send({
+                                            msg: 'smth is wrong' + err
+                                        });
+                                    }
+                                    return res.status(201).send({
+                                        msg: 'Пароль изменен! Войдите в систему повторно.'
+                                    });
+                                }
+                            );
+                        }
+                    });
+                    
+                    // return res.send('you want to change pass from ' + req.body.oldPassword + ' to '+ req.body.newPassword)
+                    
+                }else 
+                return res.status(401).send({
+                    msg: 'Неверный пароль 228'
+                });
+            }
+        );
+
+        
+            
+    });
+}
+
 //log in 
 const postLogin = (req, res, next) => {
     db.query(
@@ -89,11 +175,11 @@ const postLogin = (req, res, next) => {
                         });
                     }
                     if (bResult) {
-                        const token = jwt.sign ({ id: result[0].id }, 'the-super-strong-secrect', { expiresIn: 60 });
-                        //нет поля last login в таблице
-                        // db.query(
-                        //     `UPDATE Users SET last_login = 'sosi' WHERE id = '${result[0].id}'`
-                        // );
+                        const token = jwt.sign ({ id: result[0].id }, 'the-super-strong-secrect', { expiresIn: 60 * 60 * 24 });
+                        //не работает 
+                        db.query(
+                            `UPDATE Users SET last_login = now() WHERE id = '${result[0].id}'`
+                        );
                         return res.status(200).send({
                             msg: 'Logged in!',
                             token,
@@ -166,5 +252,6 @@ module.exports = {
     postLogin,
     postGetUser,
     getForgeToken,
-    postRegister
+    postRegister,
+    changePassword
 };

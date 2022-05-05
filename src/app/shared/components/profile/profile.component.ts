@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service'
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -9,21 +9,29 @@ import { AuthService } from '../../services/auth.service'
 })
 export class ProfileComponent implements OnInit {
 
-  constructor(public authService : AuthService, public router: Router) { }
+  
+
+  constructor(
+    public authService : AuthService, 
+    public router: Router,
+    ) { }
 
 
   user: string;
 
   ngOnInit(): void {
     this.getProfileInfo()
+    this.authService.initSession()
+    
     
   }
-
+  
+  
+  
   async getProfileInfo(){ 
     this.authService.getUser().subscribe((r) =>
     {
       this.user = r.login;
-      console.log('got user ' + this.user)
 
     },err =>{
       if (err.status == 401){
@@ -32,4 +40,6 @@ export class ProfileComponent implements OnInit {
       }
     })
   }
+
+  
 }

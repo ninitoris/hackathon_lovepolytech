@@ -19,6 +19,11 @@
             Профиль
           </a>
         </li>
+        <li class="nav-item" *ngIf="isLoggedin">
+          <a class="nav-link" [routerLink]="['/login']" routerLinkActive="router-link-active" (click)="logout()">
+            Выйти
+          </a>
+        </li>
       </ul>
     </div>
   </nav>

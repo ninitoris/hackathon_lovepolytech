@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require('cors')
 const bodyParser = require('body-parser');
 const initRoutes = require("./backend/routes");
-//const bcrypt = require('bcryptjs');
 
 
 const PORT = process.env.PORT || 3001;
@@ -27,12 +26,12 @@ app.use(function (req, res, next) {
 
 
 app.use(cors());
-app.use(express.static('backend/public'))
+app.use(express.static(__dirname + 'backend/public'))
 app.set("view engine", "hbs");
  
 
 app.get('/', (req, res) => {
-  res.sendFile('index.html')
+  res.sendFile(__dirname + '/backend/public/index.html')
 })
 
 initRoutes(app);

@@ -5,6 +5,7 @@ import * as moment from "moment";
 import { map } from 'rxjs/operators';
 import { Observable, Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { backendip, backendport } from './http.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,8 @@ export class AuthService {
   private _isLoggedIn$ = new BehaviorSubject<boolean>(false);
   isLoggedIn$ = this._isLoggedIn$.asObservable();
 
+  private _username$ = new BehaviorSubject<string>('');
+  username$ = this._username$.asObservable();
   
   constructor(public http: HttpClient, public router: Router) { 
     const token = localStorage.getItem('AUTH_TOKEN')
@@ -22,9 +25,8 @@ export class AuthService {
     
   }
 
-  ip = 'http://localhost';
-  //ip = 'http://194.58.103.233';
-  port = ':3001';
+  ip = backendip;
+  port = backendport;
 
   login(login: string, password: string): Observable<any>{
     return this.http.post(this.ip + this.port + "/login", {
@@ -34,17 +36,31 @@ export class AuthService {
 
   public setSession(authResult : any) {
     //const expiresAt = moment().add(authResult.expiresIn,'second');
-
     localStorage.setItem('AUTH_TOKEN', authResult.token);
-    localStorage.setItem('expiresIn', authResult.expiresIn);
+    this._username$.next(authResult.user)
 
-
+    // localStorage.setItem('expiresIn', authResult.expiresIn);
     //localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()) );
-} 
+  } 
+
+  public getSession(){
+    return this.username$;
+  }
+
+  public initSession(){
+    if (localStorage.getItem('AUTH_TOKEN')){
+      let token = localStorage.getItem('AUTH_TOKEN');
+      this.getUser().subscribe((r) =>
+      {
+        this._username$.next(r.login) 
+      })
+    }
+
+  }
 
 logout() {
   localStorage.removeItem("AUTH_TOKEN");
-  localStorage.removeItem("expires_at");
+  // localStorage.removeItem("expires_at");
 }
 
 public isLoggedIn() {
@@ -66,6 +82,12 @@ register(user: any): Observable<any>{
   })
 }
 
+public changePassword(oldPass: string, newPass: string): Observable<any>{
+  return this.http.post(this.ip + this.port + "/changepassword", {
+    "oldPassword": oldPass,
+    "newPassword": newPass
+  })
+}
 
 
 }

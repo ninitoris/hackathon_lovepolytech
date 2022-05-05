@@ -8,7 +8,7 @@ import {
   SelectionChangedEventArgs,
   Extension
 } from "ng2-adsk-forge-viewer";
-import { HttpService } from '../../services/http.service';
+import { backendip, backendport, HttpService } from '../../services/http.service';
 import { MyExtension } from "./my-extension";
 import {Token} from '../../../token';
 
@@ -32,6 +32,9 @@ export class MainComponent implements OnInit {
   public viewerOptions: ViewerOptions;
 
   searchCat = '';
+
+  ip = backendip;
+  port = backendport;
   
   changeSearchCat(strFromChild: string){
     this.searchCat = strFromChild;
@@ -488,8 +491,8 @@ export class MainComponent implements OnInit {
   
   donwloadModel(){
     //console.log(this.emitClassNum)
-    //window.open('http://localhost:3001/files/' + this.emitClassNum + '.ipt', '_blank');
-    window.open('http://194.58.103.233:3001/files/' + this.emitClassNum + '.ipt', '_blank');
+    window.open(this.ip + this.port + '/files/' + this.emitClassNum + '.ipt', '_blank');
+    //window.open('http://194.58.103.233:3001/files/' + this.emitClassNum + '.ipt', '_blank');
   }
 
 

@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '../../services/alert.service';
+import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-login',
@@ -13,10 +14,14 @@ import { AlertService } from '../../services/alert.service';
 })
 export class LoginComponent implements OnInit {
 
+  faEyeSlash = faEyeSlash;
+  faEye = faEye;
+  
   loginForm: FormGroup;
   loading = false;
   submitted = false;
   returnUrl: string;
+  passwordTextType: boolean;
     
   constructor(
     private formBuilder: FormBuilder,
@@ -36,6 +41,10 @@ export class LoginComponent implements OnInit {
   });
   }
 
+  toggleRepeatpassType(){
+    this.passwordTextType = !this.passwordTextType;
+
+  }
 
   // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
@@ -74,7 +83,6 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.authService.login(this.f.username.value, this.f.password.value)
     .subscribe((res: any)=> {
-      console.log('logged as '+ res.user)
       this.authService.setSession(res)
       this.router.navigateByUrl("/profile")
     },err=>{

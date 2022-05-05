@@ -21,6 +21,9 @@ let routes = (app) => {
   router.post("/login", loginValidation, auth.postLogin);
   router.post("/get-user", loginValidation, auth.postGetUser);
   router.post('/register', signupValidation, auth.postRegister);
+  router.post('/changepassword', auth.changePassword);
+
+  
 
 
   app.use(router);
