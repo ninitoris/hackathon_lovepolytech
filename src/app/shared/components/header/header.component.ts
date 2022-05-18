@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { username } from 'src/app/app.component';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -12,6 +13,8 @@ export class HeaderComponent implements OnInit {
   constructor(public auth: AuthService, public router: Router) { }
 
   isLoggedin = this.auth.isLoggedIn();
+
+  login = 'Ожидание...';
   
   ngOnInit(): void {
     this.router.events.subscribe(event => {
@@ -19,6 +22,9 @@ export class HeaderComponent implements OnInit {
        this.isLoggedin = this.auth.isLoggedIn();
       }
     })
+    this.auth.initSession();
+    this.auth.username$.subscribe(l=> this.login = l);
+
   }
 
   logout(){

@@ -5,6 +5,12 @@
   
 }
 
+.icon-star{
+  transform: scale(0.8);
+  margin-top: 1px;
+  position: absolute;
+  cursor: pointer;
+}
 
 .container-md{
   justify-self: center;
@@ -131,13 +137,6 @@ input[type=search] {
   margin-left: 2em;
 }
 
-.treeElementStr{
-  width: 90%;
-  border: 0px solid rgba(0, 0, 0, .125);
-  border-bottom: 1px solid rgba(0, 0, 0, .125);
-  border-top: 0px solid rgba(0, 0, 0, .125);
-  border-right: 0;
-}
 
 .treeContainer{
   width: 100%;
@@ -195,7 +194,7 @@ input[type=search] {
   max-width: 100%;
   border: 1px solid black;
   object-fit: contain;
-  max-height: 550px;
+  max-height: 70vh;
   object-fit: contain;
 }
 
@@ -204,6 +203,7 @@ input[type=search] {
   padding: 1em;
   border: 0px solid black;
   overflow: auto;
+  max-height: 100%;
 }
 
 .buttonContainer{
@@ -244,6 +244,14 @@ input[type=search] {
     height: 100%;
     overflow: auto;
   }
+  .imgcontainer img{
+    max-height: 100%
+  }
+  .textcontainer{
+    max-height: none;
+    overflow: hidden;
+    height: fit-content;
+  }
 }
 
 
@@ -275,4 +283,11 @@ input[type=search] {
     position: absolute;
     font-size: 2em;
   }
+  .viewer-btn-close{
+    position: absolute;
+    right: 0;
+    top: 10px;
+    z-index: 10;
+  }
+  
 }

@@ -14,6 +14,7 @@ import {Token} from '../../../token';
 
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import { NgbTypeaheadWindow } from '@ng-bootstrap/ng-bootstrap/typeahead/typeahead-window';
+import { AuthService } from '../../services/auth.service';
 
 
 
@@ -26,6 +27,12 @@ import { NgbTypeaheadWindow } from '@ng-bootstrap/ng-bootstrap/typeahead/typeahe
 
 
 export class MainComponent implements OnInit {
+
+  constructor(
+    private http: HttpService,
+    public authService : AuthService) { 
+
+  }
 
   
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -47,21 +54,29 @@ export class MainComponent implements OnInit {
   elArrayFilered: {pictureLink: string, num?: number, tags?: string, description?: string, urn?: string}[]
 
 
+  
+  public pubclasses : {num: number, description: string}[];
 
   //71xxxx
-  classes : {num: number, description: string}[];
+  classes : {num: number, description: string, parent: number}[];
 
   //712xxx
-  subclasses : {num: number, description: string}[];
+  subclasses : {num: number, description: string, parent: number}[];
 
   //7123xx
-  groups : {num: number, description: string}[];
+  groups : {num: number, description: string, parent: number}[];
 
   //71234x
-  subgroups : {num: number, description: string}[];
+  subgroups : {num: number, description: string, parent: number}[];
 
   //123456
-  types : {num: number, description: string, urn?: string, pictureLink?: string}[];
+  types : {num: number, description: string, urn?: string, pictureLink?: string, parent: number}[];
+
+  favs = [123,711111,123456,711112];
+
+  login: any;
+
+  icon = 'star_border' || 'star'
 
 
 
@@ -398,10 +413,7 @@ export class MainComponent implements OnInit {
     if(this.searchCat == ""){
       this.filterArr(this.searchCat)
     }
-    
   }
-
-
 
   filterArr(str: string){
     if (str != ""){
@@ -484,11 +496,11 @@ export class MainComponent implements OnInit {
     this.HideShadowBox()
   }
 
-  constructor(private http: HttpService) { 
-
-  }
-
+ 
   
+  
+
+
   donwloadModel(){
     //console.log(this.emitClassNum)
     window.open(this.ip + this.port + '/files/' + this.emitClassNum + '.ipt', '_blank');
@@ -503,30 +515,55 @@ export class MainComponent implements OnInit {
 
   public ngOnInit() {
     //console.log('Init()');
+    this.authService.username$.subscribe((l)=>{
+      this.login = l
+      console.log(this.login)
+      console.log('getting favourites for ' + this.login)
+      this.http.getfavs(this.login).subscribe((res)=>{
+      console.log(res)
+    })
+    });
 
     this.http.getToken().subscribe((data:any) => this.token = new Token(data.access_token, data.expires_in));
     
     this.http.getClasses().subscribe((res: any) =>{
-      this.classes = res;
-      //console.log(this.classes);
+      
+      res.forEach((el: any) => {
+        el.parent = 0;
+      });
+      this.classes = res
+      // console.log(this.classes);
+
     });
     
     this.http.getSubClasses().subscribe((res: any) =>{
+      res.forEach((el: any) => {
+        el.parent = el.num.toString().substring(0, 2) * 1;
+      });
       this.subclasses = res;
-      //console.log(this.subclasses);
+      // console.log(this.subclasses);
     });
 
     this.http.getGroups().subscribe((res: any) =>{
+      res.forEach((el: any) => {
+        el.parent = el.num.toString().substring(0, 3) * 1;
+      });
       this.groups = res;
-      //console.log(this.groups);
+      // console.log(this.groups);
     });
 
     this.http.getSubGroups().subscribe((res: any) =>{
+      res.forEach((el: any) => {
+        el.parent = el.num.toString().substring(0, 4) * 1;
+      });
       this.subgroups = res;
-      //console.log(this.subgroups);
+      // console.log(this.subgroups);
     });
 
     this.http.getTypes().subscribe((res: any) =>{
+      res.forEach((el: any) => {
+        el.parent = el.num.toString().substring(0, 5) * 1;
+      });
       this.types = res;
       //console.log(this.types);
     });
@@ -541,6 +578,8 @@ export class MainComponent implements OnInit {
 
     });
 
+    
+
     //forge viewer initialization
     this.viewerOptions = {
       initializerOptions: {
@@ -549,16 +588,13 @@ export class MainComponent implements OnInit {
           onGetAccessToken: (token: string, expire: number) => void
         ) => {
           onGetAccessToken(this.token.access_token, this.token.expires_in);
-          //console.log(this.token.access_token)
-          // const expireTimeSeconds = 60 * 30;
-          // onGetAccessToken(ACCESS_TOKEN, expireTimeSeconds);
         },
         api: "derivativeV2",
         enableMemoryManagement: true
       },
       viewerConfig: {
         extensions: ["Autodesk.DocumentBrowser", MyExtension.extensionName],
-        theme: "bim-theme"
+        theme: "bim-theme" 
       },
       onViewerScriptsLoaded: () => {
         // Register a custom extension
@@ -597,19 +633,19 @@ export class MainComponent implements OnInit {
     
   }
 
-  CreateChildren(parentNum: string){
-    let treeContainer = document.getElementById('treeContainer');
-    treeContainer?.classList.add('childrenCreated');
-    for (let treeEl of this.treeclass){
-      if(parentNum == treeEl.parent.toString()){
-        let child = document.createElement('div');
-        treeContainer?.appendChild(child);
-        child.style.border = '1px solid black';
-        child.innerHTML = treeEl.classNum.toString();
-        child.id = treeEl.classNum.toString();
-      }
-    }
-  }
+  // CreateChildren(parentNum: string){
+  //   let treeContainer = document.getElementById('treeContainer');
+  //   treeContainer?.classList.add('childrenCreated');
+  //   for (let treeEl of this.treeclass){
+  //     if(parentNum == treeEl.parent.toString()){
+  //       let child = document.createElement('div');
+  //       treeContainer?.appendChild(child);
+  //       child.style.border = '1px solid black';
+  //       child.innerHTML = treeEl.classNum.toString();
+  //       child.id = treeEl.classNum.toString();
+  //     }
+  //   }
+  // }
 
   classSelected: string = '';
 
@@ -639,19 +675,22 @@ export class MainComponent implements OnInit {
       if(num == classEl.num){
         if(classEl.urn)
         this.DOCUMENT_URN = classEl.urn
-        //console.log(this.DOCUMENT_URN);
       }
 
     }
   }
 
   ShowClassView() {
-    //document.getElementById("mainForgeViewerDiv");
     this.classviewdisplay = "block"
     this.ShowShadowBox();
     this.AddToDisctiption();
     document.body.style.overflow = "hidden";
-    
+
+    if (this.favs.find(el=> el == this.emitClassNum)){
+      this.icon  = 'star'
+    }else {
+      this.icon  = 'star_border'
+    }
   }
 
   ShowShadowBox(){
@@ -666,18 +705,40 @@ export class MainComponent implements OnInit {
   async AddToDisctiption(){
     this.classDiscription = [];
     this.updateSearchArray(this.emitClassNum.toString())
-    for(let cl of this.elArray){
-      if (cl.num == this.emitClassNum){
-        for (let i = 1; i <=  this.substrArray.length; i++){
-          for (let arr of this.treeclass){
-            if (arr.classNum.toString() == this.substrArray[i]){
-              this.classDiscription[i-1] = arr.caption;
-              break;
-            }
-          }
-        }
-      }
-    }
+    let text;
+    let num = this.emitClassNum.toString().substring(0, 2)
+    text = this.classes.find(el => el.num.toString() == num)?.description
+    this.classDiscription[0] = num + " - " + text
+
+    num = this.emitClassNum.toString().substring(0, 3)
+    text = this.subclasses.find(el => el.num.toString() == num)?.description
+    this.classDiscription[1] = num + " - " + text
+
+    num = this.emitClassNum.toString().substring(0, 4)
+    text = this.groups.find(el => el.num.toString() == num)?.description
+    this.classDiscription[2] = num + " - " + text
+
+    num = this.emitClassNum.toString().substring(0, 5)
+    text = this.subgroups.find(el => el.num.toString() == num)?.description
+    this.classDiscription[3] = num + " - " + text
+
+    num = this.emitClassNum.toString().substring(0, 6)
+    text = this.types.find(el => el.num.toString() == num)?.description
+    this.classDiscription[4] = num + " - " + text
+
+
+    // for(let cl of this.elArray){
+    //   if (cl.num == this.emitClassNum){
+    //     for (let i = 1; i <=  this.substrArray.length; i++){
+    //       for (let arr of this.treeclass){
+    //         if (arr.classNum.toString() == this.substrArray[i]){
+    //           this.classDiscription[i-1] = arr.caption;
+    //           break;
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
   }
 
   //switch between 3d viewer and picture preview
@@ -689,6 +750,21 @@ export class MainComponent implements OnInit {
       this.drawingDisplay = "none";
       this.forgeViewerDisplay = "block"
     }
+  }
+
+  favIconClick(itemnum: any){
+    let index = this.favs.indexOf(itemnum)
+    if(index > -1){
+      //если найдено - удалить 
+      this.favs.splice(index, 1)
+      this.icon  = 'star_border'
+    }
+    else {
+      //если не найдено - добавить 
+      this.favs.push(itemnum)
+      this.icon  = 'star'
+    }
+      //send array to db
   }
 
 }

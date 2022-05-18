@@ -1,0 +1,63 @@
+<ng-container *ngFor="let treeEl of this.mainComponent.classes">
+    <ng-container *ngIf="treeEl.parent == 0">
+        <div class="treeLiEl" id={{treeEl.num}}>
+            <a class="btn treeElementStr" (click)="treeElClick(treeEl.num)" 
+            data-toggle="collapse" [href]="'#collapse'+treeEl.num" role="button" 
+            aria-expanded="false" [attr.aria-controls]="'collapse'+treeEl.num">
+            {{treeEl.num}} - {{treeEl.description}}
+        </a>
+        <div class="collapse" [id]="'collapse'+treeEl.num">
+            
+            <ng-container *ngFor="let treeEl1 of this.mainComponent.subclasses">
+                <ng-container *ngIf="treeEl1.parent == treeEl.num">
+                    <div class="treeLiEl" id={{treeEl1.num}}>
+                        <a class="btn treeElementStr" (click)="treeElClick(treeEl1.num)" data-toggle="collapse" [href]="'#collapse'+treeEl1.num" role="button" aria-expanded="false" [attr.aria-controls]="'collapse'+treeEl1.num">
+                            {{treeEl1.num}} - {{treeEl1.description}}
+                        </a>
+                        <div class="collapse" [id]="'collapse'+treeEl1.num">
+                            
+                            <ng-container *ngFor="let treeEl2 of this.mainComponent.groups">
+                                <ng-container *ngIf="treeEl2.parent == treeEl1.num">
+                                    <div class="treeLiEl" id={{treeEl2.num}}>
+                                        <a class="btn treeElementStr" (click)="treeElClick(treeEl2.num)" data-toggle="collapse" [href]="'#collapse'+treeEl2.num" role="button" aria-expanded="false" [attr.aria-controls]="'collapse'+treeEl2.num">
+                                            {{treeEl2.num}} - {{treeEl2.description}}
+                                        </a>
+                                        <div class="collapse" [id]="'collapse'+treeEl2.num">
+                                            
+                                            <ng-container *ngFor="let treeEl3 of this.mainComponent.subgroups">
+                                                <ng-container *ngIf="treeEl3.parent == treeEl2.num">
+                                                    <div class="treeLiEl" id={{treeEl3.num}}>
+                                                        <a class="btn treeElementStr" (click)="treeElClick(treeEl3.num)" data-toggle="collapse" [href]="'#collapse'+treeEl3.num" role="button" aria-expanded="false" [attr.aria-controls]="'collapse'+treeEl3.num">
+                                                            {{treeEl3.num}} - {{treeEl3.description}}
+                                                        </a>
+                                                        <div class="collapse" [id]="'collapse'+treeEl3.num">
+                                                            
+                                                            <ng-container *ngFor="let treeEl4 of this.mainComponent.types">
+                                                                <ng-container *ngIf="treeEl4.parent == treeEl3.num">
+                                                                    <div class="treeLiEl" id={{treeEl4.num}}>
+                                                                        <a class="btn treeElementStr" (click)="treeElClick(treeEl4.num)" data-toggle="collapse" [href]="'#collapse'+treeEl4.num" role="button" aria-expanded="false" [attr.aria-controls]="'collapse'+treeEl4.num">
+                                                                            {{treeEl4.num}} - {{treeEl4.description}}
+                                                                        </a>
+                                                                    </div>
+                                                                </ng-container>
+                                                            </ng-container>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </ng-container>
+                                            
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                            
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+            
+        </div>
+    </div>
+</ng-container>
+</ng-container>

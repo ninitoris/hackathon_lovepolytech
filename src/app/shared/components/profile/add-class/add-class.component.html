@@ -1,0 +1,161 @@
+<alert></alert>
+
+    <h2>Добавить класс</h2>
+    <form [formGroup]="addClassForm" *ngIf="this.addClassForm" (ngSubmit)="onSubmit()" style="overflow: hidden; padding: 0.5em;">
+        <div class="form-group row">
+            <div class=" col-inline col-sm-2">
+                <label for="type">Код</label>
+                <input type="text" formControlName="type" class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && f.type.errors }" 
+                placeholder="712345" (input)="onCodeInput($event)" 
+                (keypress)="onKeyPress($event)" maxlength="6"/>
+                <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <div *ngIf="f.username.errors.required">Username is required</div>
+                </div> -->
+            </div>
+            <div class=" col-inline col">
+                <label for="typeDesc">Описание</label>
+                <input type="text" formControlName="typeDesc" class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && f.typeDesc.errors }" 
+                />
+                <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <div *ngIf="f.username.errors.required">Username is required</div>
+                </div> -->
+            </div>
+        </div><!-- /form-group -->
+        <div class="form-group row">
+            <div class=" col-inline col-sm-2">
+                <label for="subGroup">Подгруппа</label>
+                <input type="text" formControlName="subGroup" class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && f.subGroup.errors }" 
+                placeholder="71234"
+                (input)="onCodeInput($event)" 
+                (keypress)="onKeyPress($event)" maxlength="5"/>
+                <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <div *ngIf="f.username.errors.required">Username is required</div>
+                </div> -->
+            </div>
+            <div class=" col-inline col">
+                <label for="subGroupDesc">Описание подгруппы</label>
+                <input type="text" formControlName="subGroupDesc" class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && f.subGroupDesc.errors }"/>
+                <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <div *ngIf="f.username.errors.required">Username is required</div>
+                </div> -->
+            </div>
+        </div><!-- /form-group -->
+
+        <div class="form-group row">
+            <div class=" col-inline col-sm-2">
+                <label for="groupNum">Группа</label>
+                <input type="text" formControlName="groupNum" class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && f.groupNum.errors }" 
+                placeholder="7123"
+                (input)="onCodeInput($event)" 
+                (keypress)="onKeyPress($event)" maxlength="4"/>
+                <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <div *ngIf="f.username.errors.required">Username is required</div>
+                </div> -->
+            </div>
+            <div class=" col-inline col">
+                <label for="groupDesc">Описание группы</label>
+                <input type="text" formControlName="groupDesc" class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && addClassForm.errors }"/>
+                <div *ngIf="submitted && addClassForm.errors" class="invalid-feedback">
+                    <div *ngIf="addClassForm.errors.groupvalempty"> is required</div>
+                </div>
+            </div>
+        </div><!-- /form-group -->
+
+        <div class="form-group row">
+            <div class=" col-inline col-sm-2">
+                <label for="subclass">Подкласс</label>
+                <input type="text" formControlName="subClass" class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && f.subClass.errors }" 
+                placeholder="712"
+                (input)="onCodeInput($event)" 
+                (keypress)="onKeyPress($event)" maxlength="3"/>
+                <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <div *ngIf="f.username.errors.required">Username is required</div>
+                </div> -->
+            </div>
+            <div class=" col-inline col">
+                <label for="subclassNumDesc">Описание подкласса</label>
+                <input type="text" formControlName="subClassDesc" class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && addClassForm.errors }"/>
+                <div *ngIf="submitted && addClassForm.errors" class="invalid-feedback">
+                    <div *ngIf="addClassForm.errors.subclassvalempty"> is required</div>
+                </div>
+            </div>
+        </div><!-- /form-group -->
+
+        <div class="form-group row">
+            <div class=" col-inline col-sm-2">
+                <label for="classNum">Класс</label>
+                <input type="text" formControlName="classNum" class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && f.classNum.errors }" 
+                placeholder="71"
+                (input)="onCodeInput($event)" 
+                (keypress)="onKeyPress($event)" maxlength="2"/>
+                <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <div *ngIf="f.username.errors.required">Username is required</div>
+                </div> -->
+            </div>
+            <div class=" col-inline col">
+                <label for="classDescField">Описание класса</label>
+                <input type="text" formControlName="classDescField" class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && addClassForm.errors }"/>
+                <div *ngIf="submitted && addClassForm.errors" class="invalid-feedback">
+                    <div *ngIf="addClassForm.errors.classvalempty"> is required</div>
+                </div>
+            </div>
+        </div><!-- /form-group -->
+
+        <div class="form-group">
+            <label for="file">Чертеж (изображение) </label>
+            <br/>
+            <input type="file"
+                   id="file"
+                   accept="image/png, image/jpg, image/jpeg"
+                   (change)="handleFileInput($event)">
+        </div><!-- /form-group -->
+
+
+        <div class="form-group row">
+            <div class=" col-inline col">
+                <label for="urn">URN </label>
+                <a href="https://models.autodesk.io/" target="#">(Получить URN)</a>
+                <input type="text" formControlName="urn" class="form-control" 
+                [ngClass]="{ 'is-invalid': submitted && f.urn.errors }"/>
+                <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <div *ngIf="f.username.errors.required">Username is required</div>
+                </div> -->
+            </div>
+        </div><!-- /form-group -->
+
+        <!-- <div class="form-group">
+
+            <fieldset id="zone" class="flow-drop">
+                <p>Drag 'n Drop a file inside&hellip;</p>
+                <p>Or click here to <em>Browse</em>..</p>
+                
+                <p style="z-index: 10; position: relative">
+                <input type="checkbox" id="multiple">
+                <label for="multiple">Allow multiple selection</label>
+                </p>
+               
+                <progress class="progress" id="bar_zone10" min="0" max="100"></progress>
+            </fieldset>
+        </div> -->
+
+
+        <div class="form-group">
+            <button [disabled]="loading" class="btn btn-primary">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Сохранить
+            </button>
+        </div>
+
+
+
+    </form>

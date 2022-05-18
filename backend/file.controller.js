@@ -1,8 +1,28 @@
 const fs = require('fs');
-const dstpath = './models/';
+const path = require('path');
+const dstpath = '/models/';
 let Client = require('ssh2-sftp-client');
 let sftp = new Client();
-let remotePath = '/models/';
+let remotePath = './models/';
+const multer = require('multer');
+
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+  cb(null, path.join(__dirname, '../', '/pictures/'));
+    },
+  filename: function (req, file, cb) {
+      cb(null, file.originalname);
+  }
+});
+
+const uploadImg = multer({storage: storage}).single('image');
+
+const newFile = (req, res, next) =>{
+  const image = req.image;
+  res.send({message: 'File uploaded successfully.', image});
+}
+
 
 let config = {
     host: '194.58.103.233',
@@ -15,7 +35,7 @@ const getListFiles = (req, res) => {
     fs.readdir(dstpath, function(err, files){
         let fileInfos = [];
         try{
-          sftp.end()
+          // sftp.end()
         }catch(err){
           console.log(err)
         }
@@ -37,6 +57,7 @@ const getListFiles = (req, res) => {
           
           .catch(err => {
             console.log(err, 'catch error');
+            sftp.end();
             res.send(err)
           });
     })
@@ -45,19 +66,19 @@ const getListFiles = (req, res) => {
 const download = (req, res) => {
     const fileName = req.params.name;
     try{
-      sftp.end()
+      // sftp.end()
     }catch(err){
-      console.log(err)
+      // console.log(err)
     }
     sftp.connect(config)
   .then(() => {
-    return sftp.get(remotePath + fileName, dstpath + fileName);
+    return sftp.get(remotePath + fileName, path.join(__dirname, '../',dstpath, fileName) );
   })
   .then(() => {
     sftp.end();
   })
   .then(()=>{
-    res.download(dstpath + fileName, fileName, (err) => {
+    res.download(path.join(__dirname, '../',dstpath, fileName), fileName, (err) => {
         if (err) {
           res.status(500).send({
             message: "Could not download the file. " + err,
@@ -67,11 +88,15 @@ const download = (req, res) => {
   })
   .catch(err => {
     console.error(err.message);
-    res.status(500).send(err)
+    sftp.end();
+    res.status(500).send(err.message)
+
   });
 };
 
 module.exports = {
     getListFiles,
-    download
+    download,
+    uploadImg,
+    newFile
 }

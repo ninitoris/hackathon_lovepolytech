@@ -49,7 +49,7 @@ export class AuthService {
 
   public initSession(){
     if (localStorage.getItem('AUTH_TOKEN')){
-      let token = localStorage.getItem('AUTH_TOKEN');
+      // let token = localStorage.getItem('AUTH_TOKEN');
       this.getUser().subscribe((r) =>
       {
         this._username$.next(r.login) 

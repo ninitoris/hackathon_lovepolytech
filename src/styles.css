@@ -2,3 +2,28 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* .adsk-viewing-viewer #toolbar-modelStructureTool{display:none!important}
+.adsk-viewing-viewer #toolbar-explodeTool{display:none!important}
+.adsk-viewing-viewer #toolbar-measurementSubmenuTool{display:none!important} */
+
+#toolbar-documentModels{
+  display:none!important
+}
+.adsk-viewing-viewer #navTools{
+  display:none!important
+}
+.adsk-viewing-viewer #toolbar-modelStructureTool{
+  display:none!important
+}
+#toolbar-propertiesTool{
+  display:none!important
+}
+
+@media (max-width: 420px) {
+  .homeViewWrapper{
+    position: fixed !important;
+    left: 10px !important;
+    margin: 0 !important;
+  }
+}

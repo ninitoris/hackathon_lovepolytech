@@ -9,19 +9,23 @@
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/']" routerLinkActive="router-link-active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
         </li>
+        <li class="nav-item dropdown me-auto" *ngIf="isLoggedin">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{login}}
+          </a>
+          <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
+            <a class="nav-link" [routerLink]="['/profile']" routerLinkActive="router-link-active">
+              Профиль
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="nav-link" [routerLink]="['/login']" routerLinkActive="router-link-active" (click)="logout()">
+              Выйти
+            </a>
+          </div>
+        </li>
         <li class="nav-item" *ngIf="!isLoggedin">
           <a class="nav-link" [routerLink]="['/login']" routerLinkActive="router-link-active">
             Login
-          </a>
-        </li>
-        <li class="nav-item" *ngIf="isLoggedin">
-          <a class="nav-link" [routerLink]="['/profile']" routerLinkActive="router-link-active">
-            Профиль
-          </a>
-        </li>
-        <li class="nav-item" *ngIf="isLoggedin">
-          <a class="nav-link" [routerLink]="['/login']" routerLinkActive="router-link-active" (click)="logout()">
-            Выйти
           </a>
         </li>
       </ul>

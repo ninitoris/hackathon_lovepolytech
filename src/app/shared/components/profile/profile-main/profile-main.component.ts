@@ -31,14 +31,13 @@ export class ProfileMainComponent implements OnInit {
 
   ngOnInit(): void {
     this.changePasswordForm = this.formBuilder.group({
-      password: ['', Validators.required],
-      newpassword: ['', [Validators.required, Validators.minLength(6)]],
-      confirmpassword: ['', [Validators.required, Validators.minLength(6)]]
-  },
-  {
-   validators: this.MustMatch('newpassword', 'confirmpassword')
-  }
-  );
+        password: ['', Validators.required],
+        newpassword: ['', [Validators.required, Validators.minLength(6)]],
+        confirmpassword: ['', [Validators.required, Validators.minLength(6)]]
+    },
+    {
+    validators: this.MustMatch('newpassword', 'confirmpassword')
+    });
   }
 
   MustMatch(controlName: string, controlNameToMatch: string) {

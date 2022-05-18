@@ -3,14 +3,13 @@ const cors = require('cors')
 const bodyParser = require('body-parser');
 const initRoutes = require("./backend/routes");
 
-
 const PORT = process.env.PORT || 3001;
  
 const app = express();
 const urlencodedParser = express.urlencoded({extended: false});
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/public'));
+app.use('/picture', express.static(__dirname + '/pictures'));
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -26,7 +25,7 @@ app.use(function (req, res, next) {
 
 
 app.use(cors());
-app.use(express.static(__dirname + 'backend/public'))
+app.use(express.static(__dirname + '/backend/public'))
 app.set("view engine", "hbs");
  
 

@@ -41,7 +41,7 @@ export class MyExtension extends Extension {
     // Initialise a toolbar
     if (this.viewer.toolbar) {
       // Toolbar is already available, create the UI
-      this.createUI();
+      // this.createUI();
     } else {
       // Toolbar hasn't been created yet, wait until we get notification of its creation
       this.onToolbarCreatedBinded = this.onToolbarCreated.bind(this);
@@ -49,7 +49,7 @@ export class MyExtension extends Extension {
     }
     
 
-
+    
     // Must return true or extension will fail to load
     return true;
   }
@@ -69,13 +69,21 @@ export class MyExtension extends Extension {
   public onToolbarCreated() {
     this.viewer.removeEventListener(Autodesk.Viewing.TOOLBAR_CREATED_EVENT, this.onToolbarCreatedBinded);
     this.onToolbarCreatedBinded = null;
-    this.createUI();
+    // this.createUI();
     const toolbarControls = [];
     for (let i = 0; i < this.viewer.toolbar.getNumberOfControls(); i++) {
       toolbarControls.push(this.viewer.toolbar.getControlId(i));
     }
     //toolbarControls.forEach(control => this.viewer.toolbar.removeControl(control));
-    toolbarControls.forEach(control => console.log(control));
+    
+    // toolbarControls.forEach(control => {
+    //   console.log(control)
+    // });
+    
+    // let c = this.viewer.toolbar.getControl('modelTools');
+    // console.log(c);
+    // (this.viewer.toolbar.getControl("modelTools") as Autodesk.Viewing.UI.ControlGroup).removeControl("toolbar-measurementSubmenuTool");
+    
     
   }
 

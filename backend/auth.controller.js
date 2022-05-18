@@ -7,8 +7,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Axios = require('axios');
 
-const FORGE_CLIENT_ID = "3ytcIEPclEcrOUWH6d6dYQsTRx9A1OIS";
-const FORGE_CLIENT_SECRET = "WRKbZ4kUXR5l4ORz";
+// const FORGE_CLIENT_ID = "3ytcIEPclEcrOUWH6d6dYQsTRx9A1OIS";
+// const FORGE_CLIENT_SECRET = "WRKbZ4kUXR5l4ORz";
+const FORGE_CLIENT_ID = "UcgUQA696mtlbPlu1lhRspuWRBoYQAX2";
+const FORGE_CLIENT_SECRET = "95VI0EAHtISSH1G6";
 
 const querystring = require('querystring');
 const { prototype } = require("events");
@@ -106,16 +108,8 @@ const changePassword = (req, res, next) =>{
                             });
                         } else {
                             // has hashed password => add to database
-                            // db.query(
-                        // `UPDATE Users SET password = '${}' WHERE id = '${result[0].id}'`
-                    // );
                             db.query(
-                                 `UPDATE Users SET password = ${db.escape(hash)} WHERE id = ?`, results[0].id
-
-                                // `INSERT INTO Users (login, password, level) VALUES (${db.escape(
-                                //     req.body.login
-                                // )}, ${db.escape(hash)}, 1)`
-                                ,
+                                 `UPDATE Users SET password = ${db.escape(hash)} WHERE id = ?`, results[0].id,
                                 (err, result) => {
                                     if (err) {
                                         return res.status(400).send({
@@ -216,7 +210,12 @@ const postGetUser = (req, res, next) => {
         })
     }
     db.query('SELECT login FROM Users where id=?', decoded.id, function (error, results, fields) {
-        if (error) throw error;
+        if (error) {
+            console.log(error)
+            return res.send({
+                message: 'error getting users'
+            })
+        };
         return res.send({ error: false, login: results[0].login, message: 'Fetch Successfully.' });
     });
 }
