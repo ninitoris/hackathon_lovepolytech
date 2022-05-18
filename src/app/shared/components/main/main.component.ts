@@ -15,6 +15,7 @@ import {Token} from '../../../token';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import { NgbTypeaheadWindow } from '@ng-bootstrap/ng-bootstrap/typeahead/typeahead-window';
 import { AuthService } from '../../services/auth.service';
+import { now } from 'moment';
 
 
 
@@ -50,8 +51,8 @@ export class MainComponent implements OnInit {
   
    emptylink = 'https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg';
    
-  elArray: {pictureLink: string, num?: number, tags?: string, description?: string, urn?: string}[]
-  elArrayFilered: {pictureLink: string, num?: number, tags?: string, description?: string, urn?: string}[]
+  elArray: {pictureLink: string, num: number, tags?: string, description?: string, urn?: string}[]
+  elArrayFilered: {pictureLink?: string, num: number, tags?: string, description?: string, urn?: string}[]
 
 
   
@@ -415,11 +416,54 @@ export class MainComponent implements OnInit {
     }
   }
 
-  filterArr(str: string){
+  async filterArr(str: string){
     if (str != ""){
       this.elArrayFilered = [];
+      let temparr = [];
+      let arraysarray = [this.classes, this.subclasses, this.groups, this.subgroups, this.types]
 
-      //filter class nums
+      let time = now();
+      for (let arr of arraysarray){
+        for (let el of arr){
+          if(el.num != undefined && el.description.indexOf(str)>-1){
+            temparr.push(el.num)
+          }
+        }
+      }
+      
+      let seen: {
+        [key: number]: number | string
+      } = {};
+      console.log('temparr')
+      console.log(temparr)
+      let len = this.types.length
+      for (let el1 of temparr){
+        for(var i = 0; i < len; i++){
+          // if(this.types[i].num.toString().indexOf(el1.toString()) > -1){
+          if(this.types[i].num.toString().startsWith(el1.toString())){
+            var item = this.types[i].num
+            if(seen[item] !== 1){
+              seen[item] = 1;
+              this.elArrayFilered.push(this.types[i])
+            }
+
+          }
+        }
+      }
+      // this.elArrayFilered.sort( (a,b)=>{
+      //   if(a.num > b.num) return 1;
+      //   if(a.num < b.num) return -1;
+      //   return 0;
+      // })
+      console.log('elArrayFilered')
+      console.log(this.elArrayFilered)
+
+
+
+
+
+      //filter 
+      // add class nums
       for (let el of this.elArray){
         if(el.num != undefined && el.num.toString().indexOf(str) > -1){
           this.elArrayFilered.push(el)
@@ -461,7 +505,7 @@ export class MainComponent implements OnInit {
 
   //array of items sorted by paginator
   currentItemsToShow: { 
-    pictureLink: string; num?: number | undefined; tags?: string | undefined; description?: string | undefined; urn?: string | undefined; 
+    pictureLink?: string; num: number; tags?: string | undefined; description?: string | undefined; urn?: string | undefined; 
   }[];
 
 
