@@ -25,7 +25,9 @@ import { ProfileMainComponent } from './shared/components/profile/profile-main/p
 import { AddClassComponent } from './shared/components/profile/add-class/add-class.component';
 import { TreeviewComponent } from './shared/components/main/treeview/treeview.component';
 import { MatTreeModule } from '@angular/material/tree';
-import { MatIconModule } from '@angular/material/icon'
+import { MatIconModule } from '@angular/material/icon';
+import { FavouritesComponent } from './shared/components/profile/favourites/favourites.component';
+import { ClassviewComponent } from './shared/components/main/classview/classview.component';
 
 
 
@@ -44,7 +46,9 @@ import { MatIconModule } from '@angular/material/icon'
     AlertComponent,
     ProfileMainComponent,
     AddClassComponent,
-    TreeviewComponent
+    TreeviewComponent,
+    FavouritesComponent,
+    ClassviewComponent
     
   ],
   imports: [
@@ -63,6 +67,7 @@ import { MatIconModule } from '@angular/material/icon'
     MatIconModule
   ],
   providers:[
+    AddClassComponent,
     { provide: HTTP_INTERCEPTORS, useClass: HTTPInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]

@@ -16,6 +16,7 @@ import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import { NgbTypeaheadWindow } from '@ng-bootstrap/ng-bootstrap/typeahead/typeahead-window';
 import { AuthService } from '../../services/auth.service';
 import { now } from 'moment';
+import { Router } from '@angular/router';
 
 
 
@@ -30,6 +31,7 @@ import { now } from 'moment';
 export class MainComponent implements OnInit {
 
   constructor(
+    private router: Router,
     private http: HttpService,
     public authService : AuthService) { 
 
@@ -73,9 +75,9 @@ export class MainComponent implements OnInit {
   //123456
   types : {num: number, description: string, urn?: string, pictureLink?: string, parent: number}[];
 
-  favs = [123,711111,123456,711112];
+  favs:string[] = ['']
 
-  login: any;
+  login: string;
 
   icon = 'star_border' || 'star'
 
@@ -349,40 +351,6 @@ export class MainComponent implements OnInit {
     }
   ]
 
-  //TODO сломалось добавление описания к классу
-  //не работает поиск по описанию  
-  AddClassDisctiption(){
-    //console.log('тут')
-    /*for(let classitem of this.elArray){
-      console.log('и тут')
-      if(classitem.num != undefined)
-      {
-        this.classDiscription = [];
-        this.updateSearchArray(classitem.num.toString())
-        for(let cl of this.elArray){
-          if (cl.num == classitem.num){
-            for (let i = 1; i <=  this.substrArray.length; i++){
-              for (let arr of this.treeclass){
-                if (arr.classNum.toString() == this.substrArray[i]){
-                  this.classDiscription[i-1] = arr.caption;
-                  break;
-                }
-              }
-            }
-          }
-        }
-      }
-      classitem.description = "";
-      for (let cd of this.classDiscription){
-        classitem.description = classitem.description + " " + cd;
-      }
-      
-
-    }
-    */
-    //console.log("Описание элеманта: " + this.elArray[1].description)
-  }
-  
   DOCUMENT_URN = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEyLTU4LTIyLWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLyVEMCVBMSVEMCVCMSVEMCVCRSVEMSU4MCVEMCVCQSVEMCVCMDEuU1RFUA'; 
 
   currentParent = 0;
@@ -560,12 +528,19 @@ export class MainComponent implements OnInit {
   public ngOnInit() {
     //console.log('Init()');
     this.authService.username$.subscribe((l)=>{
-      this.login = l
-      console.log(this.login)
-      console.log('getting favourites for ' + this.login)
-      this.http.getfavs(this.login).subscribe((res)=>{
-      console.log(res)
-    })
+      if(l !==''){ 
+        this.login = l
+        this.http.getfavs(this.login).subscribe((res)=>{
+          if(res[0]){
+            this.favs = res[0].favourite_list.split(',')
+          }
+        })
+      }else {
+        this.login = 'Войти'
+      }
+      // console.log(this.login)
+      // console.log('getting favourites for ' + this.login)
+      
     });
 
     this.http.getToken().subscribe((data:any) => this.token = new Token(data.access_token, data.expires_in));
@@ -673,7 +648,6 @@ export class MainComponent implements OnInit {
     this.drawingDisplay = "none";
     // this.forgeViewerDisplay = "block"
     //console.log('qweqeqweqw');
-    this.AddClassDisctiption();
     
   }
 
@@ -730,7 +704,7 @@ export class MainComponent implements OnInit {
     this.AddToDisctiption();
     document.body.style.overflow = "hidden";
 
-    if (this.favs.find(el=> el == this.emitClassNum)){
+    if (this.favs != null &&  this.favs.find(el=> el == this.emitClassNum.toString())){
       this.icon  = 'star'
     }else {
       this.icon  = 'star_border'
@@ -797,7 +771,8 @@ export class MainComponent implements OnInit {
   }
 
   favIconClick(itemnum: any){
-    let index = this.favs.indexOf(itemnum)
+    
+    let index = this.favs != null ? this.favs.indexOf(itemnum.toString()) : -1;
     if(index > -1){
       //если найдено - удалить 
       this.favs.splice(index, 1)
@@ -805,10 +780,16 @@ export class MainComponent implements OnInit {
     }
     else {
       //если не найдено - добавить 
-      this.favs.push(itemnum)
+      this.favs.push(itemnum.toString())
       this.icon  = 'star'
     }
       //send array to db
+      this.http.updatefavourites(this.login,this.favs.join(',')).subscribe((res)=>{
+        console.log(res)
+      },err=>{
+        this.router.navigate(['/login']);
+        console.log(err)
+      })
   }
 
 }

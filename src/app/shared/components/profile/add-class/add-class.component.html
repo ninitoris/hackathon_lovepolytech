@@ -60,7 +60,7 @@
             <div class=" col-inline col">
                 <label for="groupDesc">Описание группы</label>
                 <input type="text" formControlName="groupDesc" class="form-control" 
-                [ngClass]="{ 'is-invalid': submitted && addClassForm.errors }"/>
+                [ngClass]="{ 'is-invalid': submitted && f.groupDesc.errors }"/>
                 <div *ngIf="submitted && addClassForm.errors" class="invalid-feedback">
                     <div *ngIf="addClassForm.errors.groupvalempty"> is required</div>
                 </div>
@@ -82,7 +82,7 @@
             <div class=" col-inline col">
                 <label for="subclassNumDesc">Описание подкласса</label>
                 <input type="text" formControlName="subClassDesc" class="form-control" 
-                [ngClass]="{ 'is-invalid': submitted && addClassForm.errors }"/>
+                [ngClass]="{ 'is-invalid': submitted && f.subClassDesc.errors }"/>
                 <div *ngIf="submitted && addClassForm.errors" class="invalid-feedback">
                     <div *ngIf="addClassForm.errors.subclassvalempty"> is required</div>
                 </div>
@@ -104,10 +104,11 @@
             <div class=" col-inline col">
                 <label for="classDescField">Описание класса</label>
                 <input type="text" formControlName="classDescField" class="form-control" 
-                [ngClass]="{ 'is-invalid': submitted && addClassForm.errors }"/>
-                <div *ngIf="submitted && addClassForm.errors" class="invalid-feedback">
+                [ngClass]="{ 'is-invalid': submitted && f.classDescField.errors }"
+                />
+                <!-- <div *ngIf="submitted && addClassForm.errors" class="invalid-feedback">
                     <div *ngIf="addClassForm.errors.classvalempty"> is required</div>
-                </div>
+                </div> -->
             </div>
         </div><!-- /form-group -->
 
@@ -116,8 +117,28 @@
             <br/>
             <input type="file"
                    id="file"
+                   formControlName="img"
                    accept="image/png, image/jpg, image/jpeg"
-                   (change)="handleFileInput($event)">
+                   (change)="handleFileInput($event)"
+                   [ngClass]="{ 'is-invalid': submitted && f.img.errors }">
+                   <!-- <div *ngIf="submitted && f.img.errors" class="invalid-feedback">
+                    <div *ngIf="f.img.errors.typeValEmpty">Type is empty</div>
+                    </div> -->
+        </div><!-- /form-group -->
+
+        <div class="form-group">
+            <label for="iptFile">3D модель</label>
+            <br/>
+            <input type="file"
+                   formControlName="model"
+                   id="iptfile"
+                   accept=".ipt"
+                   (change)="handleModelInput($event)"
+                   [ngClass]="{ 'is-invalid': submitted && f.model.errors }">
+                   <!-- <div *ngIf="submitted && f.model.errors" class="invalid-feedback">
+                    <div *ngIf="f.model.errors.badname">Имя файла должно быть в формате "123456.ipt"</div>
+                    <div *ngIf="f.model.errors.typeValEmpty">Type is empty</div>
+                    </div> -->
         </div><!-- /form-group -->
 
 
@@ -127,8 +148,8 @@
                 <a href="https://models.autodesk.io/" target="#">(Получить URN)</a>
                 <input type="text" formControlName="urn" class="form-control" 
                 [ngClass]="{ 'is-invalid': submitted && f.urn.errors }"/>
-                <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                    <div *ngIf="f.username.errors.required">Username is required</div>
+                <!-- <div *ngIf="submitted && f.urn.errors" class="invalid-feedback">
+                    <div *ngIf="f.urn.errors.typeValEmpty">Type is empty</div>
                 </div> -->
             </div>
         </div><!-- /form-group -->

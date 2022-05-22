@@ -247,10 +247,43 @@ const getForgeToken = (req, res) =>{
         });
 }
 
+function jwtTokenValidate(req) {
+    if (
+        !req.headers.authorization ||
+        !req.headers.authorization.startsWith('Bearer') ||
+        !req.headers.authorization.split(' ')[1]
+    ) {
+        return res.status(422).json({
+            message: "Please provide token",
+        });
+    }
+    const theToken = req.headers.authorization.split(' ')[1];
+    if(theToken){
+        jwt.verify(theToken, 'the-super-strong-secrect', (err, decoded)=>{
+            if (err) {
+                return res.json({ success: false, message: 'Failed to authenticate token.' });
+                } else {
+                    // if everything is good, save to request for use in other routes
+                    req.decoded = decoded;
+                    next();
+                }
+        });
+    }else{
+        return res.status(403).send({
+            success: false,
+            message: 'No token provided.'
+          });
+    }
+
+    
+
+}
+
 module.exports = {
     postLogin,
     postGetUser,
     getForgeToken,
     postRegister,
-    changePassword
+    changePassword,
+    jwtTokenValidate
 };

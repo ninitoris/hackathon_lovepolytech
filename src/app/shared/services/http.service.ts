@@ -115,11 +115,17 @@ export class HttpService {
       "login":login
     })
   }
-
+//updatefavourites
+  updatefavourites(login: string, favs: string): Observable<any>{
+    return this.http.post(backendip + backendport + '/updatefavourites', {
+      "login":login,
+      "favs":favs
+    })
+  }
 
 
 }
 
-export const backendip = 'http://localhost';
-//export const backendip = 'http://194.58.103.233';
+//export const backendip = 'http://localhost';
+export const backendip = 'http://194.58.103.233';
 export const backendport = ':3001';

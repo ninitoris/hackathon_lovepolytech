@@ -1,0 +1,9 @@
+Ваш список Избранных классов: {{this.favs}}
+<br>
+<div class="main-gallery-view container" id="main-gallery-view">
+    <app-eskdclass-element *ngFor="let elData of itemsToShow" 
+    [eskdclass]="elData" 
+    (emitClassNum)="ChangeClassNum($event)" 
+    (displayClassView)="displayClassView($event)">
+    </app-eskdclass-element>
+</div>

@@ -1,4 +1,7 @@
 const pool = require ("./pool")
+const auth = require("./auth.controller");
+const jwt = require('jsonwebtoken');
+
 
 const getData = (req, res) =>{
     pool.query("SELECT * FROM Types", function(err, data){
@@ -544,27 +547,75 @@ const writeFavourites = (req, res, next)=>{
 }
 
 const updateFavourites = (req, res, next)=>{
+
+    if (
+        !req.headers.authorization ||
+        !req.headers.authorization.startsWith('Bearer') ||
+        !req.headers.authorization.split(' ')[1]
+    ) {
+        return res.status(422).json({
+            message: "Did not get token",
+        });
+    }
+    const theToken = req.headers.authorization.split(' ')[1];
+    try{
+        var decoded = jwt.verify(theToken, 'the-super-strong-secrect');
+
+    }catch (err){
+        return res.status(401).json({
+            message:"Unable to verify token"
+        })
+    }
+
     login = req.body.login
     favs = req.body.favs
     pool.query(
-        `UPDATE Favouite SET favourite_list = ${pool.escape(favs)} WHERE login=${login}`
+        `SELECT * FROM Favouite WHERE login=${pool.escape(login)}`
         ,(err, result) => {
-            if (err) {
-                                    
+            if (err){
                 return res.status(400).send({
                     msg: err
-                });
+                }); 
             }
-            return res.status(201).send({
-                msg: 'updated favs'
-            });
+            if(result[0] == null || result[0] == undefined){
+                pool.query(
+                    `INSERT INTO Favouite (login, favourite_list) VALUES (${pool.escape(login)}, ${pool.escape(favs)})`
+                    ,(err, result) => {
+                        if (err) {
+                                                
+                            return res.status(400).send({
+                                msg: err
+                            });
+                        }
+                        return res.status(201).send({
+                            msg: 'updated favs'
+                        });
+                    }
+                )
+            }else{
+                pool.query(
+                    `UPDATE Favouite SET favourite_list = ${pool.escape(favs)} WHERE login=${pool.escape(login)}`
+                    ,(err, result) => {
+                        if (err) {
+                                                
+                            return res.status(400).send({
+                                msg: err
+                            });
+                        }
+                        return res.status(201).send({
+                            msg: 'updated favs'
+                        });
+                    }
+                )
+            }
         }
     )
+    
 }
 
 const getFavourites = (req, res, next)=>{
     
-    pool.query(`SELECT favourite_list from Favouite WHERE login = ${req.body.login}`
+    pool.query(`SELECT favourite_list from Favouite WHERE login=${pool.escape(req.body.login)}`
     , function(err, data){
         if(err) res.status(400).send({msg: err});
         res.json(data)

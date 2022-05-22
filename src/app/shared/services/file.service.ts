@@ -9,9 +9,14 @@ import { backendip, backendport } from './http.service';
 export class FileService {
 
   constructor(public http: HttpClient) { }
-  postFile(fileToUpload: File): Observable<any> {
+  postFileImage(fileToUpload: File): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('image', fileToUpload);
     return this.http.post(backendip + backendport + '/uploadimage', formData)
-}
+  }
+  postFileModel(fileToUpload: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('model', fileToUpload);
+    return this.http.post(backendip + backendport + '/uploadmodel', formData)
+  }
 }

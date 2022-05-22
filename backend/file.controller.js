@@ -23,6 +23,36 @@ const newFile = (req, res, next) =>{
   res.send({message: 'File uploaded successfully.', image});
 }
 
+const modelsStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+  cb(null, path.join(__dirname, '../', '/models/'));
+    },
+  filename: function (req, file, cb) {
+      cb(null, file.originalname);
+  }
+});
+
+const uploadModel = multer({storage: modelsStorage}).single('model');
+
+const newModel = (req, res, next) =>{
+  const model = req.model;
+  filename = req.file.filename;
+  // console.log(filename.split('.')[0])
+  sftp.connect(config)
+  .then(()=>{
+    return sftp.fastPut(path.join(__dirname, '../', '/models/',filename),remotePath + filename)
+  })
+  .then(()=>{
+    sftp.end()
+  })
+  .catch(err => {
+    console.error(err.message);
+    sftp.end();
+    res.status(500).send(err.message)
+  })
+
+  res.send({message: 'File uploaded successfully.', model});
+}
 
 let config = {
     host: '194.58.103.233',
@@ -65,11 +95,6 @@ const getListFiles = (req, res) => {
 
 const download = (req, res) => {
     const fileName = req.params.name;
-    try{
-      // sftp.end()
-    }catch(err){
-      // console.log(err)
-    }
     sftp.connect(config)
   .then(() => {
     return sftp.get(remotePath + fileName, path.join(__dirname, '../',dstpath, fileName) );
@@ -98,5 +123,7 @@ module.exports = {
     getListFiles,
     download,
     uploadImg,
-    newFile
+    newFile,
+    uploadModel,
+    newModel
 }

@@ -1,67 +1,65 @@
 <div id="mainAppGrid">
-
-
-<div id="mainESKDDiv">
-    <div class="container-md">
-        <div class="firstrow">
-            <div class=" firstrow-item"></div>
-            <div class="tree firstrow-item">
-                <a class="btn btn-secondary" role="button" (click)="ShowTree()">
-                    Просмотр дерева
-                </a>
-            </div>
-            <div class="filter firstrow-item">
-                <input 
-                type="search" 
-                class="form-control" 
-                [(ngModel)]="searchCat"
-                placeholder="Поиск класса"
-                (keyup)="onSearchChange($event)"
-                (input)="onSearchInput($event)"
-                id="filterInput"
-                >
+    <div id="mainESKDDiv">
+        <div class="container-md">
+            <div class="firstrow">
+                <div class=" firstrow-item"></div>
+                <div class="tree firstrow-item">
+                    <a class="btn btn-secondary" role="button" (click)="ShowTree()">
+                        Просмотр дерева
+                    </a>
+                </div>
+                <div class="filter firstrow-item">
+                    <input 
+                    type="search" 
+                    class="form-control" 
+                    [(ngModel)]="searchCat"
+                    placeholder="Поиск класса"
+                    (keyup)="onSearchChange($event)"
+                    (input)="onSearchInput($event)"
+                    id="filterInput"
+                    >
+                </div>
             </div>
         </div>
-    </div>
-    
-    <div class="container-md">
-        <div class="treefilter">
-            <a class="btn btn-secondary" data-toggle="collapse" 
-            href="#collapseTree" role="button" aria-expanded="false" aria-controls="collapseTree">
-            Подбор по дереву классов
-        </a>
-        <div class="collapse" id="collapseTree">
-            <div class="card">
-                <ng-container *ngIf="searchCat.length > 1">
-                    <ng-container *ngFor="let treeEl of treeclass">
-                        <ng-container *ngFor="let tempstr of substrArray">
-                            <ng-container *ngIf="tempstr==treeEl.classNum">
-                                <a (click)="treeElClick(treeEl.classNum)" 
-                                style="font-weight: bolder;"
-                                class="btn elementStr" data-toggle="collapse" 
-                                href="#" role="button" aria-expanded="false" 
-                                aria-controls="collapseTree">
-                                
-                                {{treeEl.caption}}
-                                
-                            </a>
+        
+        <div class="container-md">
+            <div class="treefilter">
+                <a class="btn btn-secondary" data-toggle="collapse" 
+                href="#collapseTree" role="button" aria-expanded="false" aria-controls="collapseTree">
+                Подбор по дереву классов
+            </a>
+            <div class="collapse" id="collapseTree">
+                <div class="card">
+                    <ng-container *ngIf="searchCat.length > 1">
+                        <ng-container *ngFor="let treeEl of treeclass">
+                            <ng-container *ngFor="let tempstr of substrArray">
+                                <ng-container *ngIf="tempstr==treeEl.classNum">
+                                    <a (click)="treeElClick(treeEl.classNum)" 
+                                    style="font-weight: bolder;"
+                                    class="btn elementStr" data-toggle="collapse" 
+                                    href="#" role="button" aria-expanded="false" 
+                                    aria-controls="collapseTree">
+                                    
+                                    {{treeEl.caption}}
+                                    
+                                </a>
+                            </ng-container>
                         </ng-container>
                     </ng-container>
                 </ng-container>
+                <ng-container *ngFor="let treeEl of treeclass">
+                    <a *ngIf="treeEl.parent == currentParent" (click)="treeElClick(treeEl.classNum)" 
+                    class="btn elementStr" data-toggle="collapse" 
+                    href="#" role="button" aria-expanded="false" 
+                    aria-controls="collapseTree">
+                    
+                    {{treeEl.caption}}
+                    
+                    
+                </a>
             </ng-container>
-            <ng-container *ngFor="let treeEl of treeclass">
-                <a *ngIf="treeEl.parent == currentParent" (click)="treeElClick(treeEl.classNum)" 
-                class="btn elementStr" data-toggle="collapse" 
-                href="#" role="button" aria-expanded="false" 
-                aria-controls="collapseTree">
-                
-                {{treeEl.caption}}
-                
-                
-            </a>
-        </ng-container>
+        </div>
     </div>
-</div>
 </div>
 
 <!--
@@ -69,23 +67,20 @@
     main-gallery-view
 
 -->
-    <div class="main-gallery-view container" id="main-gallery-view">
-        
-        <app-eskdclass-element *ngFor="let elData of currentItemsToShow" 
-        [eskdclass]="elData" (emitClassNum)="ChangeClassNum($event)" 
-        (displayClassView)="displayClassView($event)">
+<div class="main-gallery-view container" id="main-gallery-view">
+    
+    <app-eskdclass-element *ngFor="let elData of currentItemsToShow" 
+    [eskdclass]="elData" (emitClassNum)="ChangeClassNum($event)" 
+    (displayClassView)="displayClassView($event)">
     </app-eskdclass-element>
-    </div>
+</div>
 
-    <mat-paginator #paginator
+<mat-paginator #paginator
 (page)="onPageChange($event)"
 [length]="arraylength"
-              [pageSize]="12"
-              [pageSizeOptions]="[6, 12, 24, 100]">
+            [pageSize]="12"
+            [pageSizeOptions]="[6, 12, 24, 100]">
 </mat-paginator>
-
-
-</div>
 
 
 

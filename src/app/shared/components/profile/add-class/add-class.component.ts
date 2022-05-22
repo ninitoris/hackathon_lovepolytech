@@ -42,6 +42,7 @@ export class AddClassComponent implements OnInit {
   classDesc = true;
 
   fileToUpload: File | null = null;
+  modelToUpload: File | null = null;
 
 
   loading = false;
@@ -75,8 +76,11 @@ export class AddClassComponent implements OnInit {
       type:[''],
       typeDesc:[''],
       img:[''],
-      urn:['']
-    }, this.formOptions
+      urn:[''],
+      model:['']
+    }
+    // , 
+    // this.formOptions
     
     )
 
@@ -188,7 +192,22 @@ export class AddClassComponent implements OnInit {
   handleFileInput(event:any) {
     let files = event.target.files
     this.fileToUpload = files.item(0);
-}
+  } 
+  handleModelInput(event: any){
+    let files = event.target.files
+    this.modelToUpload = files.item(0);
+    console.log(this.modelToUpload)
+    /// \d{6}([.]ipt)/gmi
+    let regex = /\d{6}([.]ipt)/gmi
+    if(this.modelToUpload == null || this.modelToUpload?.name && regex.test(this.modelToUpload.name)){
+      console.log('filename is fine')
+    }else{
+
+      console.log('bad filename')
+      let c = this.addClassForm.controls['model'].setErrors({badname: true})
+    }
+    
+  }
 
   onSubmit(){
     //check if parents are filled, 
@@ -238,28 +257,28 @@ export class AddClassComponent implements OnInit {
       this.classDesc = false; 
     }
 
-    console.log(this.addClassForm)
 
 
     //if not valid
     // stop here if form is invalid
     if (this.addClassForm.invalid) {
-      // return;
+      console.log('инвалид')
+      return;
     } 
     console.log('сам ты инвалид')
 
     let filename = this.fileToUpload?.name ;
-    console.log(filename)
+    // console.log(filename)
     var filelink: string;
     if (filename){
       filelink = 'http://194.58.103.233:3001/picture/' + filename;
     }
     else filelink = ''
 
-    var errorsArr: any[];
     //descriptions update / set
     if(this.f.classNum.value.length == 2)
-    this.http.addClass(this.f.classNum.value, this.f.classDescField.value).subscribe((res)=>{
+    this.http.addClass(this.f.classNum.value, this.f.classDescField.value)
+    .subscribe((res)=>{
       // console.log(res.Class_num, res.Class_name)
       if(res.Class_num && res.Class_name != this.f.classDescField.value && this.f.classDescField.value != ''){
         //already exists in db
@@ -283,48 +302,59 @@ export class AddClassComponent implements OnInit {
               console.log(res)
             })
           }
+          
+            if(this.f.subGroup.value.length == 5)
+            this.http.addSubGroup(this.f.subGroup.value, this.f.subGroupDesc.value)
+            .subscribe((res)=>{
+              if(res.subroup_id && res.subroup_name != this.f.subGroupDesc.value && this.f.subGroupDesc.value!=''){
+                this.http.updatesubgroups(this.f.subGroup.value, this.f.subGroupDesc.value).subscribe((res)=>{
+                  console.log(res)
+                })
+              }
+    
+              if(this.f.type.value.length == 6)
+              this.http.addType(this.f.type.value, this.f.typeDesc.value, this.f.urn.value, filelink).subscribe((res)=>{
+                console.log(res)
+    
+                if(res.subroup_id && res.subroup_name != this.f.typeDesc.value && this.f.typeDesc.value!=''){
+                  // this.http.(
+                  //   this.f.type.value, this.f.typeDesc.value).subscribe((res)=>{
+                  //   console.log(res)
+                  // })
+                  console.log('update call')
+                }
+              },err=>{
+                //addType subscribe error
+                console.log(err)
+                // errorsArr.push(err.error.msg)
+                this.alertService.error(JSON.stringify(err.error.msg));
+    
+              })
+            },err=>{
+              //add sub group subscribe error
+              console.log(err)
+              this.alertService.error(JSON.stringify(err.error.msg));
+    
+            })
+
+
+
+        },err=>{
+          //add group subscribe error
+          console.log(err)
+          this.alertService.error(JSON.stringify(err.error.msg));
+
         })
           
 
-        if(this.f.subGroup.value.length == 5)
-        this.http.addSubGroup(this.f.subGroup.value, this.f.subGroupDesc.value)
-        .subscribe((res)=>{
-          if(res.subroup_id && res.subroup_name != this.f.subGroupDesc.value && this.f.subGroupDesc.value!=''){
-            this.http.updatesubgroups(this.f.subGroup.value, this.f.subGroupDesc.value).subscribe((res)=>{
-              console.log(res)
-            })
-          }
-
-          if(this.f.type.value.length == 6)
-          this.http.addType(this.f.type.value, this.f.typeDesc.value, this.f.urn.value, filelink).subscribe((res)=>{
-            console.log(res)
-
-            if(res.subroup_id && res.subroup_name != this.f.typeDesc.value && this.f.typeDesc.value!=''){
-              // this.http.(
-              //   this.f.type.value, this.f.typeDesc.value).subscribe((res)=>{
-              //   console.log(res)
-              // })
-              console.log('update call')
-            }
-          },err=>{
-            //addType subscribe error
-            console.log(err)
-            // errorsArr.push(err.error.msg)
-        this.alertService.error(JSON.stringify(err.error.msg));
-
-          })
-        },err=>{
-          // subscribe error
-          console.log(err)
-        this.alertService.error(JSON.stringify(err.error.msg));
-
-        })
-
+        //subclass end
       },err=>{
         // subscribe error
         console.log(err)
         this.alertService.error(JSON.stringify(err.error.msg));
       })
+
+      //end of addclasses
     },err=>{
       //addclass subscribe error
       console.log(err)
@@ -343,12 +373,23 @@ export class AddClassComponent implements OnInit {
     //upload file
     if(this.fileToUpload){
       
-      this.fileService.postFile(this.fileToUpload).subscribe((res)=>{
+      this.fileService.postFileImage(this.fileToUpload).subscribe((res)=>{
         console.log(res)
       },err=>{
         console.log(err)
-      })
+        this.alertService.error(JSON.stringify(err));
 
+      })
+    }
+
+    if(this.modelToUpload){
+      this.fileService.postFileModel(this.modelToUpload).subscribe((res)=>{
+        console.log(res)
+      },err=>{
+        console.log(err)
+        this.alertService.error(JSON.stringify(err));
+      })
+    
     }
 
     //update data in memory
@@ -377,4 +418,17 @@ export class AddClassComponent implements OnInit {
     
     return null
   }
+
+  typeIsNotEmpty(control: AbstractControl): ValidationErrors | null{
+    let typeVal = control.get('typeDesc')?.value;
+    console.log(typeVal)
+    if (typeVal == undefined){
+      return {typeValEmpty: true}
+    }else
+    return null
+  }
+  
+
+
+
 }

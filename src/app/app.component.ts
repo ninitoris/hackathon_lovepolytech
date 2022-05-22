@@ -23,6 +23,7 @@ export class AppComponent implements OnInit {
     },err=>{
       // console.log(err.error.message)
       this.authService.logout();
+      username = 'Войти'
     })
      
   }

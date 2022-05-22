@@ -53,6 +53,9 @@ export class AuthService {
       this.getUser().subscribe((r) =>
       {
         this._username$.next(r.login) 
+      },err =>{
+        this.logout()
+        this._username$.next('Войти')
       })
     }
 

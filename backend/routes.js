@@ -14,6 +14,7 @@ let routes = (app) => {
   router.get("/files/:name", filecontroller.download);
 
   router.post("/uploadimage", filecontroller.uploadImg, filecontroller.newFile);
+  router.post("/uploadmodel", filecontroller.uploadModel, filecontroller.newModel);
 
   router.get("/data", datacontroller.getData);
   router.get("/classes", datacontroller.getClasses);
