@@ -135,13 +135,10 @@
     <div>
         <button type="button" class="my-btn-close" 
         aria-label="Close"(click)="CloseTree()"></button>
-        <div class="treeContainer" id="">
-            <app-treeview></app-treeview>
-        </div>
-        <div class="treeNavMenucontainer">
-            <button type="button" class="btn btn-dark btn-select-class" 
-            aria-label="Search"(click)="ApplyTreeFilter()">Выбрать класс</button>
-        </div>
+            <app-treeview
+            (searchCatEmitter)="ApplyTreeFilter($event)"
+            ></app-treeview>
+        
     </div>
 </div>
 </div>

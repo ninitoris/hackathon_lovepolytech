@@ -7,7 +7,8 @@
             <div class="form-group">
                 <label for="password">Старый пароль</label>
                 <div class="input-group">
-                  <input [type]="passwordTextType ? 'text' : 'password'" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+                  <input [type]="passwordTextType ? 'text' : 'password'" formControlName="password" 
+                  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
                   <div class="input-group-append">
                     <span class="input-group-text btn" (click)="togglepasswordTextType()">
                       <fa-icon [icon]="faEyeSlash" *ngIf="!passwordTextType"></fa-icon>
@@ -22,7 +23,8 @@
             <div class="form-group">
               <label for="newpassword">Новый пароль</label>
               <div class="input-group">
-                <input [type]="repeatPasswordType ? 'text' : 'password'" formControlName="newpassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.newpassword.errors }" />
+                <input [type]="repeatPasswordType ? 'text' : 'password'" formControlName="newpassword" 
+                class="form-control" [ngClass]="{ 'is-invalid': submitted && f.newpassword.errors }" />
                 <div class="input-group-append">
                   <span class="input-group-text btn" (click)="toggleRepeatpassType()">
                     <fa-icon [icon]="faEyeSlash" *ngIf="!repeatPasswordType"></fa-icon>
@@ -38,7 +40,8 @@
           <div class="form-group" *ngIf="!repeatPasswordType">
             <label for="confirmpassword">Повторите пароль</label>
             <div class="input-group">
-              <input [type]="repeatPasswordType ? 'text' : 'password'" formControlName="confirmpassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmpassword.errors }"/>
+              <input [type]="repeatPasswordType ? 'text' : 'password'" formControlName="confirmpassword" 
+              class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmpassword.errors }"/>
               <div class="input-group-append">
                 <span class="input-group-text btn" (click)="toggleRepeatpassType()">
                   <fa-icon [icon]="faEyeSlash" *ngIf="!repeatPasswordType"></fa-icon>
@@ -48,7 +51,8 @@
               <div *ngIf="submitted && f.confirmpassword.errors" class="invalid-feedback">
                   <div *ngIf="f.confirmpassword.errors.required">Password is required</div>
                   <div *ngIf="f.confirmpassword.errors.MustMatch">Пароли не совпадают</div>
-                  <div *ngIf="f.confirmpassword.errors.minlength">Пароль должен содержать не менее 6 символов</div>
+                  <div *ngIf="f.confirmpassword.errors.minlength">
+                    Пароль должен содержать не менее 6 символов</div>
               </div>
             </div>
         </div>

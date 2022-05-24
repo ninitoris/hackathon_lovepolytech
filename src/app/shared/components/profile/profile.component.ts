@@ -10,7 +10,7 @@ import { AuthService } from '../../services/auth.service';
 export class ProfileComponent implements OnInit {
 
   
-
+   
   constructor(
     public authService : AuthService, 
     public router: Router,

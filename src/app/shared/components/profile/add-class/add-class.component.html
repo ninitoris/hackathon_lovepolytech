@@ -135,10 +135,10 @@
                    accept=".ipt"
                    (change)="handleModelInput($event)"
                    [ngClass]="{ 'is-invalid': submitted && f.model.errors }">
-                   <!-- <div *ngIf="submitted && f.model.errors" class="invalid-feedback">
+                   <div *ngIf="submitted && f.model.errors" class="invalid-feedback">
                     <div *ngIf="f.model.errors.badname">Имя файла должно быть в формате "123456.ipt"</div>
-                    <div *ngIf="f.model.errors.typeValEmpty">Type is empty</div>
-                    </div> -->
+                    <!-- <div *ngIf="f.model.errors.typeValEmpty">Type is empty</div> -->
+                    </div>
         </div><!-- /form-group -->
 
 

@@ -68,6 +68,8 @@ import { ClassviewComponent } from './shared/components/main/classview/classview
   ],
   providers:[
     AddClassComponent,
+    MainComponent,
+    AppComponent,
     { provide: HTTP_INTERCEPTORS, useClass: HTTPInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]

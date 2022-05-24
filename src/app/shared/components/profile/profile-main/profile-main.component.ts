@@ -101,8 +101,6 @@ export class ProfileMainComponent implements OnInit {
   }
 
   toggleRepeatpassType(){
-    // this.repeatPasswordType = !this.repeatPasswordType;
-    // when showing text -> true
     if(this.repeatPasswordType){
       this.confPass.enable();
     }else{
@@ -110,5 +108,4 @@ export class ProfileMainComponent implements OnInit {
     }
     this.repeatPasswordType = !this.repeatPasswordType;
   }
-
 }

@@ -126,6 +126,6 @@ export class HttpService {
 
 }
 
-//export const backendip = 'http://localhost';
-export const backendip = 'http://194.58.103.233';
+export const backendip = 'http://localhost';
+//export const backendip = 'http://194.58.103.233';
 export const backendport = ':3001';

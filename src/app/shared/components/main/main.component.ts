@@ -10,13 +10,14 @@ import {
 } from "ng2-adsk-forge-viewer";
 import { backendip, backendport, HttpService } from '../../services/http.service';
 import { MyExtension } from "./my-extension";
-import {Token} from '../../../token';
+import {Token} from '../../token';
 
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import { NgbTypeaheadWindow } from '@ng-bootstrap/ng-bootstrap/typeahead/typeahead-window';
 import { AuthService } from '../../services/auth.service';
 import { now } from 'moment';
 import { Router } from '@angular/router';
+import { AppComponent } from 'src/app/app.component';
 
 
 
@@ -33,7 +34,9 @@ export class MainComponent implements OnInit {
   constructor(
     private router: Router,
     private http: HttpService,
-    public authService : AuthService) { 
+    public authService : AuthService,
+    private ac: AppComponent
+    ) { 
 
   }
 
@@ -61,21 +64,21 @@ export class MainComponent implements OnInit {
   public pubclasses : {num: number, description: string}[];
 
   //71xxxx
-  classes : {num: number, description: string, parent: number}[];
+  public classes : {num: number, description: string, parent: number}[];
 
   //712xxx
-  subclasses : {num: number, description: string, parent: number}[];
+  public subclasses : {num: number, description: string, parent: number}[];
 
   //7123xx
-  groups : {num: number, description: string, parent: number}[];
+  public groups : {num: number, description: string, parent: number}[];
 
   //71234x
-  subgroups : {num: number, description: string, parent: number}[];
+  public subgroups : {num: number, description: string, parent: number}[];
 
   //123456
-  types : {num: number, description: string, urn?: string, pictureLink?: string, parent: number}[];
+  public types : {num: number, description: string, urn?: string, pictureLink?: string, parent: number}[];
 
-  favs:string[] = ['']
+  favs = this.ac.favs
 
   login: string;
 
@@ -402,8 +405,7 @@ export class MainComponent implements OnInit {
       let seen: {
         [key: number]: number | string
       } = {};
-      console.log('temparr')
-      console.log(temparr)
+  
       let len = this.types.length
       for (let el1 of temparr){
         for(var i = 0; i < len; i++){
@@ -418,13 +420,13 @@ export class MainComponent implements OnInit {
           }
         }
       }
-      // this.elArrayFilered.sort( (a,b)=>{
-      //   if(a.num > b.num) return 1;
-      //   if(a.num < b.num) return -1;
-      //   return 0;
-      // })
-      console.log('elArrayFilered')
-      console.log(this.elArrayFilered)
+      this.elArrayFilered.sort( (a,b)=>{
+        if(a.num > b.num) return 1;
+        if(a.num < b.num) return -1;
+        return 0;
+      })
+      // console.log('elArrayFilered')
+      // console.log(this.elArrayFilered)
 
 
 
@@ -530,11 +532,6 @@ export class MainComponent implements OnInit {
     this.authService.username$.subscribe((l)=>{
       if(l !==''){ 
         this.login = l
-        this.http.getfavs(this.login).subscribe((res)=>{
-          if(res[0]){
-            this.favs = res[0].favourite_list.split(',')
-          }
-        })
       }else {
         this.login = 'Войти'
       }
@@ -612,12 +609,12 @@ export class MainComponent implements OnInit {
         enableMemoryManagement: true
       },
       viewerConfig: {
-        extensions: ["Autodesk.DocumentBrowser", MyExtension.extensionName],
+        extensions: ["Autodesk.DocumentBrowser"],
         theme: "bim-theme" 
       },
       onViewerScriptsLoaded: () => {
         // Register a custom extension
-        Extension.registerExtension(MyExtension.extensionName, MyExtension);
+        // Extension.registerExtension(MyExtension.extensionName, MyExtension);
       },
       onViewerInitialized: (args: ViewerInitializedEvent) => {
         if (this.DOCUMENT_URN)
@@ -671,11 +668,13 @@ export class MainComponent implements OnInit {
     this.classSelected = classNum.toString();
   }
 
-  ApplyTreeFilter(){
-    this.searchCat = this.classSelected;
+  ApplyTreeFilter(event: any){
+    this.searchCat = event;
     this.currentParent = Number(this.classSelected);
     this.CloseTree();
     this.updateSearchArray(this.searchCat)
+    this.filterArr(this.searchCat)
+
   }
   
   //get class number from opened class model
@@ -713,7 +712,6 @@ export class MainComponent implements OnInit {
 
   ShowShadowBox(){
     this.shadowDisplay = "block";
-
   }
 
 

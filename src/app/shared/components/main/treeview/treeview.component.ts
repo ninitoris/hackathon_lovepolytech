@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output,EventEmitter } from '@angular/core';
 import { HttpService } from 'src/app/shared/services/http.service';
 import { MainComponent } from 'src/app/shared/components/main/main.component'
 
@@ -9,11 +9,14 @@ import { MainComponent } from 'src/app/shared/components/main/main.component'
 })
 export class TreeviewComponent implements OnInit {
 
+  @Output() searchCatEmitter = new EventEmitter<string>();
+
   constructor(
     private http: HttpService,
     public mainComponent : MainComponent
   ) { }
 
+  searchCat = '';
 
   
 
@@ -23,10 +26,14 @@ export class TreeviewComponent implements OnInit {
 
 
   treeElClick(classNum: number){
-    // this.searchCat = classNum.toString();
-    // this.currentParent = classNum;
-    // this.updateSearchArray(this.searchCat)
+    this.searchCat = classNum.toString();
+    
   }
 
+
+  ApplyTreeFilter(){
+    //output num
+    this.searchCatEmitter.emit(this.searchCat)
+  }
 
 }

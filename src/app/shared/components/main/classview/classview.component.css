@@ -1,0 +1,294 @@
+
+#mainForgeViewerDiv{
+    position: relative;
+    height: 100%;
+    
+  }
+  
+  .icon-star{
+    transform: scale(0.8);
+    margin-top: 1px;
+    position: absolute;
+    cursor: pointer;
+  }
+  
+  .container-md{
+    justify-self: center;
+    justify-content: center;
+    display: grid;
+  }
+  .title{
+    border: 1px solid black;
+    justify-content: center;
+    padding: auto 0;
+    height: calc(1.5em + 0.75rem);
+    padding: 0.375rem 0.75rem 0.375rem 0;
+    display: inline-block;
+  }
+  
+  .tree{
+    margin-right: 1em;
+  }
+  .tree a{
+    width: 100%;
+  }
+  
+  
+  .firstrow{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 1em 0;
+  }
+  
+  .treefilter{
+    justify-content: stretch;
+    padding: 0 1em;
+  
+  }
+  
+  .treefilter a{
+    width: 100%;
+  }
+  
+  .filter input{
+    display: inline-block;
+  }
+  
+  .btn{
+    text-align: left;
+    justify-content: left;
+  }
+  
+  input[type=search]::-webkit-search-cancel-button {
+    -webkit-appearance: searchfield-cancel-button;
+    cursor: pointer;
+  }
+  
+  input[type=search] {
+    -webkit-appearance: none;
+  }
+  
+  .main-gallery-view{
+    padding-top: 2em;
+    background-color: #ffffff;
+    text-align: center;
+  }
+  
+  .container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+  
+  .elementStr{
+    border-top: 1px solid rgba(0, 0, 0, .125);
+    border-radius: 0%;
+    
+  }
+  
+  #shadow{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: rgba(0,0,0,0.6);
+  }
+  
+  
+  #treeview{
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    height: 80%;
+    z-index: 10;
+    background-color: #fff;
+    overflow:auto;
+  }
+  
+  
+  
+  .my-btn-close{
+    margin: 2px 5px 2px auto;
+    background-color: transparent;
+    justify-self: right;
+    float: right;
+    border: 0px;
+  }
+  
+  .my-btn-close:after{
+    display: inline-block;
+    content: "\00d7";
+  }
+  
+  .viewer-btn-close{
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .treeLiEl{
+    display: block;
+    border-left: 1px solid rgba(0, 0, 0, .125);
+    margin-left: 2em;
+  }
+  
+  
+  .treeContainer{
+    width: 100%;
+    display: inline-block;  
+  }
+  
+  .collapsing {
+    
+    -webkit-transition: height .1s ease;
+    -o-transition: height .1s ease;
+    transition: height .1s ease;
+  
+  }
+  
+  .btn-select-class{
+    float: right;
+    margin: 0 1em 0 auto;
+  }
+  
+  .treeNavMenucontainer{
+    display: block;
+    width: 100%;
+    margin: 1em 0;
+    padding: 0 0 2em 0;
+  }
+  
+  .classview{
+    position: fixed;
+    top: 10%;
+    left: 10%;
+    width: 80%;
+    
+    height: 80%;
+    z-index: 10;
+    background-color: #fff;
+  }
+  
+  .classViewGrid{
+    display: grid;
+    grid-template-columns: 70% 30%;
+    height: 100%;
+    /*
+    grid-template-rows: 150%;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 50%));*/
+  }
+  
+  .imgcontainer{
+    max-width: 95%;
+    margin: 2em;
+    position: relative;
+    text-align: center;
+  }
+  
+  .imgcontainer img{
+    max-width: 100%;
+    border: 1px solid black;
+    object-fit: contain;
+    max-height: 70vh;
+    object-fit: contain;
+  }
+  
+  .textcontainer{
+    max-width: 100%;
+    padding: 1em;
+    border: 0px solid black;
+    overflow: auto;
+    max-height: 100%;
+  }
+  
+  .buttonContainer{
+    text-align: center;
+    margin-top: 1em;
+    z-index: 20;
+  }
+  
+  #btn-download{
+    margin-left: 0.5em;
+  }
+  
+  @media (max-width: 1010px) {
+  
+    .classview{
+      position: fixed;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      
+      height: 100%;
+      
+      background-color: #fff;
+    }
+  }
+  
+  
+  @media (max-width: 720px) {
+    .adsk-viewing-viewer{
+      min-height: 60vh;
+    }
+    #mainForgeViewerDiv{
+      min-height: 60vh;
+    }
+    .classViewGrid{
+      display: grid;
+      grid-template-columns: 100%;
+      height: 100%;
+      overflow: auto;
+    }
+    .imgcontainer img{
+      max-height: 100%
+    }
+    .textcontainer{
+      max-height: none;
+      overflow: hidden;
+      height: fit-content;
+    }
+  }
+  
+  
+  @media (max-width: 420px) {
+    .firstrow-item{
+      text-align: center;
+      justify-content: center;
+      width:  100%;
+      margin: 0;
+      padding: 0 1em;
+    }
+    .tree{
+      margin: 0;
+    }
+    #treeview{
+      position: absolute;
+      top: 0%;
+      left: 0%;
+      width: 100%;
+      height: 100%;
+      z-index: 10;
+      background-color: #fff;
+      overflow:auto;
+    }
+    .my-btn-close{
+      margin: 2px 25px 2px auto;
+    }
+    .my-btn-close:after{
+      position: absolute;
+      font-size: 2em;
+    }
+    .viewer-btn-close{
+      position: absolute;
+      right: 0;
+      top: 10px;
+      z-index: 10;
+    }
+    
+  }
+  

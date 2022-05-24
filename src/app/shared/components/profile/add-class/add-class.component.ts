@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, AbstractControlOptions, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { now } from 'moment';
+import { AppComponent } from 'src/app/app.component';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { FileService } from 'src/app/shared/services/file.service';
@@ -53,7 +54,8 @@ export class AddClassComponent implements OnInit {
     private formBuilder: FormBuilder,
     private alertService: AlertService,
     private http: HttpService,
-    private fileService: FileService
+    private fileService: FileService,
+    private ac: AppComponent
 
   ) { }
 
@@ -90,37 +92,13 @@ export class AddClassComponent implements OnInit {
   
 
   ngAfterViewInit(){
-    this.getdata()
+    this.ac.getdata()
   }
 
 
   get f() { return this.addClassForm.controls; }
 
-  getdata(){
-    this.http.getClasses().subscribe((res: any) =>{
-      this.classesArr = res;
-      //console.log(this.classes);
-    });
-    
-    this.http.getSubClasses().subscribe((res: any) =>{
-      this.subclassesArr = res;
-      //console.log(this.subclasses);
-    });
-
-    this.http.getGroups().subscribe((res: any) =>{
-      this.groupsArr = res;
-      //console.log(this.groups);
-    });
-
-    this.http.getSubGroups().subscribe((res: any) =>{
-      this.subgroupsArr = res;
-      //console.log(this.subgroups);
-    });
-
-    this.http.getTypes().subscribe((res: any) =>{
-      this.typesArr = res;
-    });
-  }
+  
 
   onKeyPress(event: any){
     var charCode = (event.which) ? event.which : event.keyCode;
@@ -393,7 +371,7 @@ export class AddClassComponent implements OnInit {
     }
 
     //update data in memory
-    this.getdata()
+    this.ac.getdata()
     
 
     

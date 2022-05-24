@@ -137,12 +137,6 @@ input[type=search] {
   margin-left: 2em;
 }
 
-
-.treeContainer{
-  width: 100%;
-  display: inline-block;  
-}
-
 .collapsing {
   
   -webkit-transition: height .1s ease;
@@ -154,13 +148,6 @@ input[type=search] {
 .btn-select-class{
   float: right;
   margin: 0 1em 0 auto;
-}
-
-.treeNavMenucontainer{
-  display: block;
-  width: 100%;
-  margin: 1em 0;
-  padding: 0 0 2em 0;
 }
 
 .classview{

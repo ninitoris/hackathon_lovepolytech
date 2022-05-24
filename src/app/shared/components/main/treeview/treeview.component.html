@@ -1,3 +1,4 @@
+<div class="treeContainer" id="">
 <ng-container *ngFor="let treeEl of this.mainComponent.classes">
     <ng-container *ngIf="treeEl.parent == 0">
         <div class="treeLiEl" id={{treeEl.num}}>
@@ -61,3 +62,8 @@
     </div>
 </ng-container>
 </ng-container>
+</div>
+<div class="treeNavMenucontainer">
+    <button type="button" class="btn btn-dark btn-select-class" 
+    aria-label="Search"(click)="ApplyTreeFilter()">Выбрать класс</button>
+</div>

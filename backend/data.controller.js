@@ -216,13 +216,10 @@ const addClass = (req, res, next) =>{
         (err, result) => {
             if(err){
                 return res.json ({message: 'Query error: ' + err})
-                
             }
             if(result){
-
                 if(result[0] == null || result[0] == undefined){
                     //not found class in table
-                    // return res.send({error: true, message: 'no class found'})
                     //add class to table
                     pool.query(
                         `call Insert_Classes (${class_id}, ${pool.escape(class_desc)})`
@@ -588,7 +585,7 @@ const updateFavourites = (req, res, next)=>{
                             });
                         }
                         return res.status(201).send({
-                            msg: 'updated favs'
+                            msg: 'updated favs: ' + favs
                         });
                     }
                 )
@@ -603,7 +600,7 @@ const updateFavourites = (req, res, next)=>{
                             });
                         }
                         return res.status(201).send({
-                            msg: 'updated favs'
+                            msg: 'updated favs: ' + favs
                         });
                     }
                 )

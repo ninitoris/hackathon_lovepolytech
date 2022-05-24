@@ -1,4 +1,3 @@
-Ваш список Избранных классов: {{this.favs}}
 <br>
 <div class="main-gallery-view container" id="main-gallery-view">
     <app-eskdclass-element *ngFor="let elData of itemsToShow" 
@@ -7,3 +6,12 @@
     (displayClassView)="displayClassView($event)">
     </app-eskdclass-element>
 </div>
+<div class="classview" [style.display]="classviewdisplay">
+    <app-classview *ngIf="classviewdisplay == 'block'"
+    [star]="icon"
+    [emitClassNum]="emitClassNum"
+    (closeShadowbox)="closeShadowbox($event)">
+    </app-classview>
+</div>
+<div id="shadow" (click)="HideShadowBox()" 
+[style.display]="shadowDisplay"></div>

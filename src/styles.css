@@ -19,7 +19,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 #toolbar-propertiesTool{
   display:none!important
 }
-
+.mat-tab-header{
+  z-index: 1!important;
+}
 @media (max-width: 420px) {
   .homeViewWrapper{
     position: fixed !important;
