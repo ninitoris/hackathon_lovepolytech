@@ -6,7 +6,7 @@ import { AppComponent } from 'src/app/app.component';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { FileService } from 'src/app/shared/services/file.service';
-import { HttpService } from 'src/app/shared/services/http.service';
+import { backendip, backendport, HttpService } from 'src/app/shared/services/http.service';
 
 @Component({
   selector: 'app-add-class',
@@ -18,22 +18,22 @@ export class AddClassComponent implements OnInit {
   addClassForm: FormGroup;
 
 
+//71xxxx
+classesArr : {num: number, description: string}[];
 
-   //71xxxx
-   classesArr : {num: number, description: string}[];
+//712xxx
+subclassesArr : {num: number, description: string}[];
 
-   //712xxx
-   subclassesArr : {num: number, description: string}[];
- 
-   //7123xx
-   groupsArr : {num: number, description: string}[];
- 
-   //71234x
-   subgroupsArr : {num: number, description: string}[];
- 
-   //123456
-   typesArr : {num: number, description: string, urn?: string, pictureLink?: string}[];
- 
+//7123xx
+groupsArr : {num: number, description: string}[];
+
+//71234x
+subgroupsArr : {num: number, description: string}[];
+
+//123456
+typesArr : {num: number, description: string, urn?: string, pictureLink?: string}[];
+
+   
    timestart = now();
 
   typeDesc = true;
@@ -85,14 +85,18 @@ export class AddClassComponent implements OnInit {
     // this.formOptions
     
     )
+    this.getdata();
 
     
   }
 
+    
+  
+
   
 
   ngAfterViewInit(){
-    this.ac.getdata()
+    // this.ac.getdata()
   }
 
 
@@ -249,7 +253,7 @@ export class AddClassComponent implements OnInit {
     // console.log(filename)
     var filelink: string;
     if (filename){
-      filelink = 'http://194.58.103.233:3001/picture/' + filename;
+      filelink = backendip + backendport + '/picture/' + filename;
     }
     else filelink = ''
 
@@ -294,50 +298,79 @@ export class AddClassComponent implements OnInit {
               this.http.addType(this.f.type.value, this.f.typeDesc.value, this.f.urn.value, filelink).subscribe((res)=>{
                 console.log(res)
     
-                if(res.subroup_id && res.subroup_name != this.f.typeDesc.value && this.f.typeDesc.value!=''){
-                  // this.http.(
-                  //   this.f.type.value, this.f.typeDesc.value).subscribe((res)=>{
-                  //   console.log(res)
-                  // })
+                if(res.type_id && (res.type_name != this.f.typeDesc.value || res.picture != filelink || res.forge_urn != this.f.urn.value) && this.f.typeDesc.value!=''){
                   console.log('update call')
+                  this.http.updatetypes(
+                    this.f.type.value, 
+                    this.f.typeDesc.value,
+                    this.f.urn.value,
+                    filelink).subscribe((res)=>{
+                    console.log(res)
+                  })
                 }
               },err=>{
+                if(err.error.msg.sqlMessage){
+                  console.log(err)
+                  this.alertService.error(JSON.stringify(err.error.msg.sqlMessage));
+                }
+                else{
+                  console.log(err)
+                  this.alertService.error(JSON.stringify(err));
+                }
                 //addType subscribe error
-                console.log(err)
                 // errorsArr.push(err.error.msg)
-                this.alertService.error(JSON.stringify(err.error.msg));
-    
               })
             },err=>{
               //add sub group subscribe error
-              console.log(err)
-              this.alertService.error(JSON.stringify(err.error.msg));
-    
+              if(err.error.msg.sqlMessage){
+                console.log(err)
+                this.alertService.error(JSON.stringify(err.error.msg.sqlMessage));
+              }
+              else{
+                console.log(err)
+                this.alertService.error(JSON.stringify(err));
+              }
             })
 
 
 
         },err=>{
           //add group subscribe error
-          console.log(err)
-          this.alertService.error(JSON.stringify(err.error.msg));
-
+          if(err.error.msg.sqlMessage){
+            console.log(err)
+            this.alertService.error(JSON.stringify(err.error.msg.sqlMessage));
+          }
+          else{
+            console.log(err)
+            this.alertService.error(JSON.stringify(err));
+          }
         })
           
 
         //subclass end
       },err=>{
         // subscribe error
-        console.log(err)
-        this.alertService.error(JSON.stringify(err.error.msg));
+        if(err.error.msg.sqlMessage){
+          console.log(err)
+          this.alertService.error(JSON.stringify(err.error.msg.sqlMessage));
+        }
+        else{
+          console.log(err)
+          this.alertService.error(JSON.stringify(err));
+        }
       })
 
       //end of addclasses
     },err=>{
       //addclass subscribe error
-      console.log(err)
-        this.alertService.error(JSON.stringify(err.error.msg));
-
+      if(err.error.msg.sqlMessage){
+        console.log(err)
+        this.alertService.error(JSON.stringify(err.error.msg.sqlMessage));
+      }
+      else{
+        console.log(err)
+        this.alertService.error(JSON.stringify(err));
+      }
     })
     //end of descs
   
@@ -371,10 +404,35 @@ export class AddClassComponent implements OnInit {
     }
 
     //update data in memory
-    this.ac.getdata()
+    this.getdata()
     
 
     
+  }
+  getdata() {
+    this.http.getClasses().subscribe((res: any) =>{
+      this.classesArr = res;
+      //console.log(this.classes);
+    });
+    
+    this.http.getSubClasses().subscribe((res: any) =>{
+      this.subclassesArr = res;
+      //console.log(this.subclasses);
+    });
+
+    this.http.getGroups().subscribe((res: any) =>{
+      this.groupsArr = res;
+      //console.log(this.groups);
+    });
+
+    this.http.getSubGroups().subscribe((res: any) =>{
+      this.subgroupsArr = res;
+      //console.log(this.subgroups);
+    });
+
+    this.http.getTypes().subscribe((res: any) =>{
+      this.typesArr = res;
+    });
   }
 
   findNotEmpty(control: AbstractControl): ValidationErrors | null{

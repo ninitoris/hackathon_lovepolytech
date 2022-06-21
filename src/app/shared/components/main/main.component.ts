@@ -78,281 +78,14 @@ export class MainComponent implements OnInit {
   //123456
   public types : {num: number, description: string, urn?: string, pictureLink?: string, parent: number}[];
 
-  favs = this.ac.favs
 
   login: string;
 
   icon = 'star_border' || 'star'
 
+  gridIsLoading = true;
 
-
-  treeclass: {parent: number, classNum: number, caption: string}[]= [
-    { parent: 0,
-      classNum: 38,
-      caption: "38xxxx - Двигатели (кроме электрических)"
-    },
-    { parent: 38,
-      classNum: 382,
-      caption: "382xxx - Поршневые с внешним подводом тепла, гидравлические, пневматические, роторные и роторно-поршневые, поворотные гидродвигатели"
-    },
-    { parent: 382,
-      classNum: 3821,
-      caption: "3821xx - Поршневые с внешним подводом тепла"
-    },
-    { parent: 3821,
-      classNum: 38211,
-      caption: "38211x - Стирлинг"
-    },
-    { parent: 38211,
-      classNum: 382111,
-      caption: "382111 - Одноцилиндровые с вытеснителем"
-    },
-    {
-      parent: 0,
-      classNum: 71,
-      caption: "71xxxx - Детали - тела вращения типа колец, дисков, шкивов, блоков, стержней, втулок, стаканов, колонок, валов, осей, штоков, шпинделей и др."
-    },
-    {
-      parent: 0,
-      classNum: 72,
-    caption: "72xxxx - Детали - тела вращения с элементами зубчатого зацепления; трубы, шланги, проволочки, разрезные, сектора, сегменты; изогнутые из листов, полос и лент; аэрогидродинамические; корпусные, опорные; емкостные; подшипников"
-    },
-    {
-      parent: 0,
-      classNum: 73,
-    caption: "73хххх - Детали - не тела вращения корпусные, опорные, емкостные"
-    },
-    {
-      parent: 0,
-      classNum: 74,
-    caption: "74хххх - Детали - не тела вращения плоскостные; рычажные, грузовые, тяговые; аэрогидродинамические; изогнутые из листов, полос и лент; профильные; трубы"
-    },
-    {
-      parent: 0,
-      classNum: 75,
-    caption: "75хххх - Детали - тела вращения и (или) не тела вращения, кулачковые, карданные, с элементами зацепления, арматуры, санитарно-технические, разветвленные, пружинные, ручки, уплотнительные, отсчетные, пояснительные, маркировочные, защитные, посуды, оптические, электрорадиоэлектронные, крепежные"
-    },
-    {
-      parent: 71,
-      classNum: 711,
-      caption: "711xxx - С L до 0,5 D вкл. с нар. поверхностью цилиндрической"
-    },
-    {
-      parent: 71,
-      classNum: 712,
-      caption: "712xxx - С L до 0,5 D вкл. с нар. поверхностью конической, криволин., комбинир."
-    },
-    {
-      parent: 71,
-      classNum: 713,
-      caption: "713xxx - С L от 0,5 D до 2 D вкл. с нар. поверхностью цилиндрической"
-    },
-    {
-      parent: 71,
-      classNum: 714,
-      caption: "714xxx - С L от 0,5 D до 2 D вкл. с нар. поверхностью конической, криволин., комбинир."
-    },
-    {
-      parent: 71,
-      classNum: 715,
-      caption: "715xxx - С L св. 2 D с нар. поверхностью цилиндрической"
-    },
-    {
-      parent: 71,
-      classNum: 716,
-      caption: "716xxx - С L св. 2 D с нар. поверхностью конической, криволин., комбинир."
-    },
-    {
-      parent: 711,
-      classNum: 7111,
-      caption: "7111xx - Без закр. уступов, гладкой, без наружн. резьбы"
-    },
-    {
-      parent: 711,
-      classNum: 7112,
-      caption: "7112xx - Без закр. уступов, гладкой, с наружн. резьбой"
-    },
-    {
-      parent: 711,
-      classNum: 7113,
-      caption: "7113xx - Без закр. уступов, ступенчатой односторонней, без нар. резьбы"
-    },
-    {
-      parent: 711,
-      classNum: 7114,
-      caption: "7114xx - Без закр. уступов, ступенчатой двухсторонней, без нар. резьбы"
-    },
-    {
-      parent: 711,
-      classNum: 7115,
-      caption: "7115xx - Без закр. уступов, ступенчатой, с нар. резьбой"
-    },
-    {
-      parent: 711,
-      classNum: 7116,
-      caption: "7116xx - С закрытыми уступами, без наружной резьбы"
-    },
-    {
-      parent: 711,
-      classNum: 7117,
-      caption: "7117xx - С закрытыми уступами, с наружной резьбой"
-    },
-    {
-      parent: 7111,
-      classNum: 71111,
-      caption: "71111x - Без центр. отв."
-    },
-    {
-      parent: 7111,
-      classNum: 71112,
-      caption: "71112x - С центр. глухим отв. с одной или двух сторон, без резьбы"
-    },
-    {
-      parent: 7111,
-      classNum: 71113,
-      caption: "71113x - С центр. глухим отв. с одной или двух сторон, с резьбой"
-    },
-    {
-      parent: 7111,
-      classNum: 71114,
-      caption: "71114x - С центр. сквоз. отв., круг. в сеч., цилиндр. без резьбы, гладким"
-    },
-    {
-      parent: 7111,
-      classNum: 71115,
-      caption: "71115x - С центр. сквоз. отв., круг. в сеч., цилиндр. без резьбы, ступенчатым"
-    },
-    {
-      parent: 7111,
-      classNum: 71116,
-      caption: "71116x - С центр. сквоз. отв., круг. в сеч., цилиндр. с резьбой"
-    },
-    {
-      parent: 7111,
-      classNum: 71117,
-      caption: "71117x - С центр. сквоз. отв., круг. в сеч., конич., криволин., комбинир."
-    },
-    {
-      parent: 7111,
-      classNum: 71119,
-      caption: "71119x - С центр. сквозным отв., некруг. в сеч."
-    },
-    {
-      parent: 71111,
-      classNum: 711111,
-      caption: "711111 - Без кольц. пазов на торцах, без пазов и/или шлицев на нар. пов., без отв. вне оси дет."
-    },
-    {
-      parent: 71111,
-      classNum: 711112,
-      caption: "711112 - Без кольц. пазов на торцах, без пазов и/или шлицев на нар. пов., с отв. вне оси дет."
-    },
-    {
-      parent: 71111,
-      classNum: 711113,
-      caption: "711113 - Без кольц. пазов на торцах, с пазами и/или шлицами на нар. пов., без отв. вне оси дет."
-    },
-    {
-      parent: 71111,
-      classNum: 711114,
-      caption: "711114 - Без кольц. пазов на торцах, с пазами и/или шлицами на нар. пов., с отв. вне оси дет."
-    },
-    {
-      parent: 71111,
-      classNum: 711115,
-      caption: "711115 - С кольц. пазами на торцах, без пазов и шлицев на нар. пов., без отв. вне оси дет."
-    },
-    {
-      parent: 71111,
-      classNum: 711116,
-      caption: "711116 - С кольц. пазами на торцах, без пазов и шлицев на нар. пов., с отв. вне оси дет."
-    },
-    {
-      parent: 71111,
-      classNum: 711117,
-      caption: "711117 - С кольц. пазами на торцах, с пазами и/или шлицами на нар. пов., без отв. вне оси дет."
-    },
-    {
-      parent: 71111,
-      classNum: 711118,
-      caption: "711118 - С кольц. пазами на торцах, с пазами и/или шлицами на нар. пов., с отв. вне оси дет."
-    },
-    {
-      parent: 72,
-      classNum: 721,
-      caption: "721xxx - С элементами зубч. зацепления цилиндрические"
-    },
-    {
-      parent: 721,
-      classNum: 7211,
-      caption: "7211xx - Одновенцовые с нар. прямыми зубьями с модулем до 1,0 мм вкл., с эвольвентными зубьями"
-    },
-    {
-      parent: 7211,
-      classNum: 72111,
-      caption: "72111x - Колеса зубч. с нар. осн. базой (трибы) с консольным зубчатым венцом"
-    },
-    {
-      parent: 72111,
-      classNum: 721112,
-      caption: "721112 - С модулем до 0,3 мм вкл."
-    },
-    {
-      parent: 72111,
-      classNum: 721114,
-      caption: "721114 - С модулем св.0,3 до 0,5 мм вкл."
-    },
-    {
-      parent: 72111,
-      classNum: 721115,
-      caption: "721115 - С модулем св.0,5 до 0,8 мм вкл."
-    },
-    {
-      parent: 72111,
-      classNum: 721116,
-      caption: "721116 - С модулем св.0,8 мм"
-    },
-    {
-      parent: 71112,
-      classNum: 711121,
-      caption: "711121 - Без кольц. пазов на торцах, без пазов и/или шлицев на нар. пов., без отв. вне оси дет."
-    },
-    {
-      parent: 71112,
-      classNum: 711122,
-      caption: "711122 - Без кольц. паз. на торц., без паз. на нар. пов., с отв. вне оси дет."
-    },
-    {
-      parent: 71112,
-      classNum: 711123,
-      caption: "711123 - Без кольц. пазов на торцах, с пазами и/или шлицами на нар. пов., без отв. вне оси дет."
-    },
-    {
-      parent: 71112,
-      classNum: 711124,
-      caption: "711124 - Без кольц. пазов на торцах, с пазами и/или шлицами на нар. пов., с отв. вне оси дет."
-    },
-    {
-      parent: 71112,
-      classNum: 711125,
-      caption: "711125 - С кольц. пазами на торцах, без пазов и шлицев на нар. пов., без отв. вне оси дет."
-    },
-    {
-      parent: 71112,
-      classNum: 711126,
-      caption: "711126 - С кольц. пазами на торцах, без пазов и шлицев на нар. пов., с отв. вне оси дет."
-    },
-    {
-      parent: 71112,
-      classNum: 711127,
-      caption: "711127 - С кольц. пазами на торцах, с пазами и/или шлицами на нар. пов., без отв. вне оси дет."
-    },
-    {
-      parent: 71112,
-      classNum: 711128,
-      caption: "711128 - С кольц. пазами на торцах, с пазами и/или шлицами на нар. пов., с отв. вне оси дет."
-    }
-  ]
+  treeclass: {parent: number, num: number, description: string}[] = []
 
   DOCUMENT_URN = 'dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6bW9kZWwyMDIxLTEyLTE3LTEyLTU4LTIyLWQ0MWQ4Y2Q5OGYwMGIyMDRlOTgwMDk5OGVjZjg0MjdlLyVEMCVBMSVEMCVCMSVEMCVCRSVEMSU4MCVEMCVCQSVEMCVCMDEuU1RFUA'; 
 
@@ -363,6 +96,7 @@ export class MainComponent implements OnInit {
     this.searchCat = classNum.toString();
     this.currentParent = classNum;
     this.updateSearchArray(this.searchCat)
+    this.filterArr(classNum.toString());
   }
 
   substrArray: {}[] = ['0']
@@ -373,18 +107,22 @@ export class MainComponent implements OnInit {
     let newVal = event.target.value;
     if (newVal === ""){
       this.currentParent = 0;
+      console.log(this.currentParent)
     }else{
       this.currentParent = newVal;
-      this.updateSearchArray(this.searchCat)
     }
     this.filterArr(this.searchCat)
+    this.updateSearchArray(this.searchCat)
   }
 
   onSearchInput(event: any){
-    //console.log('input event fired ' + event.target.value)
+    console.log('input event fired ' + event.target.value)
     if(this.searchCat == ""){
+      this.currentParent = 0;
       this.filterArr(this.searchCat)
     }
+    this.updateSearchArray(this.searchCat)
+
   }
 
   async filterArr(str: string){
@@ -393,10 +131,9 @@ export class MainComponent implements OnInit {
       let temparr = [];
       let arraysarray = [this.classes, this.subclasses, this.groups, this.subgroups, this.types]
 
-      let time = now();
       for (let arr of arraysarray){
         for (let el of arr){
-          if(el.num != undefined && el.description.indexOf(str)>-1){
+          if(el.num != undefined && el.description.toLowerCase().indexOf(str.toLowerCase())>-1){
             temparr.push(el.num)
           }
         }
@@ -409,7 +146,6 @@ export class MainComponent implements OnInit {
       let len = this.types.length
       for (let el1 of temparr){
         for(var i = 0; i < len; i++){
-          // if(this.types[i].num.toString().indexOf(el1.toString()) > -1){
           if(this.types[i].num.toString().startsWith(el1.toString())){
             var item = this.types[i].num
             if(seen[item] !== 1){
@@ -488,6 +224,7 @@ export class MainComponent implements OnInit {
           this.substrArray.push(substr)
         }
     }
+    console.log(this.substrArray)
   }
 
   HideShadowBox(){
@@ -548,6 +285,7 @@ export class MainComponent implements OnInit {
         el.parent = 0;
       });
       this.classes = res
+      this.treeclass = this.treeclass.concat(res);
       // console.log(this.classes);
 
     });
@@ -557,6 +295,7 @@ export class MainComponent implements OnInit {
         el.parent = el.num.toString().substring(0, 2) * 1;
       });
       this.subclasses = res;
+      this.treeclass = this.treeclass.concat(res);
       // console.log(this.subclasses);
     });
 
@@ -565,6 +304,7 @@ export class MainComponent implements OnInit {
         el.parent = el.num.toString().substring(0, 3) * 1;
       });
       this.groups = res;
+      this.treeclass = this.treeclass.concat(res);
       // console.log(this.groups);
     });
 
@@ -573,6 +313,7 @@ export class MainComponent implements OnInit {
         el.parent = el.num.toString().substring(0, 4) * 1;
       });
       this.subgroups = res;
+      this.treeclass = this.treeclass.concat(res);
       // console.log(this.subgroups);
     });
 
@@ -581,6 +322,7 @@ export class MainComponent implements OnInit {
         el.parent = el.num.toString().substring(0, 5) * 1;
       });
       this.types = res;
+      this.treeclass = this.treeclass.concat(res);
       //console.log(this.types);
     });
     
@@ -591,9 +333,10 @@ export class MainComponent implements OnInit {
       //console.log(this.elArray)
       this.currentItemsToShow = this.elArray.slice(0, 12);
       this.arraylength = this.elArray.length;
-
+      this.gridIsLoading = false;
     });
 
+    this.ac.getFavs();
     
 
     //forge viewer initialization
@@ -670,7 +413,7 @@ export class MainComponent implements OnInit {
 
   ApplyTreeFilter(event: any){
     this.searchCat = event;
-    this.currentParent = Number(this.classSelected);
+    this.currentParent = Number(event);
     this.CloseTree();
     this.updateSearchArray(this.searchCat)
     this.filterArr(this.searchCat)
@@ -703,7 +446,7 @@ export class MainComponent implements OnInit {
     this.AddToDisctiption();
     document.body.style.overflow = "hidden";
 
-    if (this.favs != null &&  this.favs.find(el=> el == this.emitClassNum.toString())){
+    if (this.ac.favs != null &&  this.ac.favs.find(el=> el == this.emitClassNum.toString())){
       this.icon  = 'star'
     }else {
       this.icon  = 'star_border'
@@ -770,19 +513,19 @@ export class MainComponent implements OnInit {
 
   favIconClick(itemnum: any){
     
-    let index = this.favs != null ? this.favs.indexOf(itemnum.toString()) : -1;
+    let index = this.ac.favs != null ? this.ac.favs.indexOf(itemnum.toString()) : -1;
     if(index > -1){
       //если найдено - удалить 
-      this.favs.splice(index, 1)
+      this.ac.favs.splice(index, 1)
       this.icon  = 'star_border'
     }
     else {
       //если не найдено - добавить 
-      this.favs.push(itemnum.toString())
+      this.ac.favs.push(itemnum.toString())
       this.icon  = 'star'
     }
       //send array to db
-      this.http.updatefavourites(this.login,this.favs.join(',')).subscribe((res)=>{
+      this.http.updatefavourites(this.login,this.ac.favs.join(',')).subscribe((res)=>{
         console.log(res)
       },err=>{
         this.router.navigate(['/login']);

@@ -28,7 +28,7 @@ import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
 import { FavouritesComponent } from './shared/components/profile/favourites/favourites.component';
 import { ClassviewComponent } from './shared/components/main/classview/classview.component';
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 
@@ -64,7 +64,8 @@ import { ClassviewComponent } from './shared/components/main/classview/classview
     MatTabsModule,
     FontAwesomeModule ,
     MatTreeModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
   providers:[
     AddClassComponent,

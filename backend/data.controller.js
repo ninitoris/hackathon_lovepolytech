@@ -507,11 +507,12 @@ const updateTypes = (req, res, next)=>{
     class_desc = req.body.description;
     var parent_id = class_id.toString().substring(0, 5)
     urn = req.body.urn;
-    var picture_url = req.body.picture
-    var model_p = 'хз_че'
+    var picture_url = req.body.pictureurl
+    var model_p = class_id + '.ipt'
     pool.query(
-        `CALL Update_Types (${class_id},${pool.escape(class_desc)},${class_id},${parent_id},)`,
-        (err, result) =>{
+        `CALL Update_Types (${class_id},${pool.escape(class_desc)},${class_id},
+        ${parent_id},${pool.escape(urn)},${pool.escape(picture_url)},${pool.escape(model_p)})`
+        ,(err, result) =>{
             if (err){
                 return res.status(400).send({
                     msg: err
@@ -635,6 +636,7 @@ module.exports = {
     updateSubClasses,
     updateGroups,
     updateSubGroups,
+    updateTypes,
     addClass,
     addSubClass,
     addGroup,

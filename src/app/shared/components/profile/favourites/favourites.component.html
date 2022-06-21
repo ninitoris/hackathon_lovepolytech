@@ -10,8 +10,8 @@
     <app-classview *ngIf="classviewdisplay == 'block'"
     [star]="icon"
     [emitClassNum]="emitClassNum"
-    (closeShadowbox)="closeShadowbox($event)">
+    (closeShadowbox)="closeShadowbox()">
     </app-classview>
 </div>
-<div id="shadow" (click)="HideShadowBox()" 
+<div id="shadow" (click)="closeShadowbox()" 
 [style.display]="shadowDisplay"></div>

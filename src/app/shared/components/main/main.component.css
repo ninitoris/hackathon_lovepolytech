@@ -1,8 +1,10 @@
-
 #mainForgeViewerDiv{
   position: relative;
   height: 100%;
   
+}
+#mainAppGrid{
+  min-height: calc(100vh - 104px);
 }
 
 .icon-star{
@@ -193,6 +195,10 @@ input[type=search] {
   max-height: 100%;
 }
 
+.number{
+  position: relative;
+}
+
 .buttonContainer{
   text-align: center;
   margin-top: 1em;
@@ -201,6 +207,14 @@ input[type=search] {
 
 #btn-download{
   margin-left: 0.5em;
+}
+
+.centered{
+  text-align: center;
+  justify-content: center;
+  display: inline-flex;
+  margin: auto;
+  margin-top: 1em;
 }
 
 @media (max-width: 1010px) {
@@ -217,6 +231,11 @@ input[type=search] {
   }
 }
 
+@media (max-width: 991px) {
+  #mainAppGrid{
+    min-height: calc(100vh - 108px);
+  }
+}
 
 @media (max-width: 720px) {
   .adsk-viewing-viewer{

@@ -33,14 +33,14 @@
                     <ng-container *ngIf="searchCat.length > 1">
                         <ng-container *ngFor="let treeEl of treeclass">
                             <ng-container *ngFor="let tempstr of substrArray">
-                                <ng-container *ngIf="tempstr==treeEl.classNum">
-                                    <a (click)="treeElClick(treeEl.classNum)" 
+                                <ng-container *ngIf="tempstr==treeEl.num">
+                                    <a (click)="treeElClick(treeEl.num)" 
                                     style="font-weight: bolder;"
                                     class="btn elementStr" data-toggle="collapse" 
                                     href="#" role="button" aria-expanded="false" 
                                     aria-controls="collapseTree">
                                     
-                                    {{treeEl.caption}}
+                                    {{treeEl.num}} - {{treeEl.description}}
                                     
                                 </a>
                             </ng-container>
@@ -48,12 +48,12 @@
                     </ng-container>
                 </ng-container>
                 <ng-container *ngFor="let treeEl of treeclass">
-                    <a *ngIf="treeEl.parent == currentParent" (click)="treeElClick(treeEl.classNum)" 
+                    <a *ngIf="treeEl.parent == currentParent" (click)="treeElClick(treeEl.num)" 
                     class="btn elementStr" data-toggle="collapse" 
                     href="#" role="button" aria-expanded="false" 
                     aria-controls="collapseTree">
                     
-                    {{treeEl.caption}}
+                    {{treeEl.num}} - {{treeEl.description}}
                     
                     
                 </a>
@@ -62,13 +62,18 @@
     </div>
 </div>
 
+
+
 <!--
 
     main-gallery-view
 
 -->
+<div class="container-sm centered" *ngIf="gridIsLoading">
+    <mat-spinner ></mat-spinner>
+</div>
+
 <div class="main-gallery-view container" id="main-gallery-view">
-    
     <app-eskdclass-element *ngFor="let elData of currentItemsToShow" 
     [eskdclass]="elData" (emitClassNum)="ChangeClassNum($event)" 
     (displayClassView)="displayClassView($event)">

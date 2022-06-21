@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertService } from '../../services/alert.service';
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
+import { AppComponent } from 'src/app/app.component';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,8 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private ac: AppComponent
     ) { 
       this.reLogin()
     
@@ -54,6 +56,7 @@ export class LoginComponent implements OnInit {
     this.authService.getUser().subscribe((r) =>
     {
       console.log('got user ' + r.login)
+
       this.router.navigateByUrl("/profile")
 
 
@@ -66,7 +69,12 @@ export class LoginComponent implements OnInit {
   Login(){
     this.authService.login(
       this.email, this.password
-    )
+    ).subscribe((res)=>{
+      console.log(res)
+      this.ac.getFavs()
+    },err=>{
+      console.log(err)
+    })
   }
 
   onSubmit() {

@@ -67,8 +67,13 @@ export class FavouritesComponent implements OnInit {
   ShowShadowBox(){
     this.shadowDisplay = "block";
   }
-  closeShadowbox(bool: boolean){
-    this.HideShadowBox()
+  closeShadowbox(){
+    this.treeDisplay = "none"
+    this.shadowDisplay = "none";
+    this.classviewdisplay = "none";
+    this.drawingDisplay = "none";
+    this.forgeViewerDisplay = "block"
+    document.body.style.overflow = "auto"
   }
   AddToDisctiption() {
     //emit desc
@@ -117,12 +122,7 @@ export class FavouritesComponent implements OnInit {
   }
 
   HideShadowBox(){
-    this.treeDisplay = "none"
-    this.shadowDisplay = "none";
-    this.classviewdisplay = "none";
-    this.drawingDisplay = "none";
-    this.forgeViewerDisplay = "block"
-    document.body.style.overflow = "auto"
+    
   }
 
 

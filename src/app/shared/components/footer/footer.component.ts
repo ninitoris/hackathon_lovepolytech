@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-footer',
@@ -9,7 +10,10 @@ export class FooterComponent implements OnInit {
 
   constructor() { }
 
+  
   ngOnInit(): void {
+    
   }
 
+  
 }

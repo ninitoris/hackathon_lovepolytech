@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit {
   title = 'projectVKR';
   username: string;
+  level: number;
   //71xxxx
   classesArr : {num: number, description: string}[];
 
@@ -65,24 +66,37 @@ export class AppComponent implements OnInit {
     this.authService.getUser().subscribe((res)=>{
       // console.log(res)
       this.username = res.login
-      this.http.getfavs(this.username).subscribe((res)=>{
-        if(res[0]){
-          this.favs = res[0].favourite_list.split(',')
-        }
-      },err=>{
-        console.log(err)
-        
-        
-      })
+      this.level = res.level;
+      
+      console.log(res)
+      this.getFavs()
     },err=>{
-      // console.log(err.error.message)
+      console.log(err)
       this.authService.logout();
       this.username = 'Войти'
     })
      this.getdata();
   }
 
-  
+  getFavs(){
+    this.authService.username$.subscribe(u=>{
+      this.username = u;
+      // console.log('getting favs for ' + this.username)
+    this.http.getfavs(this.username).subscribe((res)=>{
+      if(res[0]){
+        this.favs = res[0].favourite_list.split(',')
+        // console.log(this.favs)
+      }else{
+        this.favs = ['']
+      }
+    },err=>{
+      console.log(err)
+      this.favs = ['']
+
+    })
+    })
+    
+  }
 
 
 }

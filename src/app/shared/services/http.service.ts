@@ -110,12 +110,21 @@ export class HttpService {
     })
   }
 
+  updatetypes(codeToUpdate: string, codeDescription: string, urn: string, pic_link: string): Observable<any>{
+    return this.http.post(backendip + backendport + '/updateTypes', {
+      "class": codeToUpdate,
+      "description":codeDescription,
+      "urn":urn,
+      "pictureurl":pic_link
+    })
+  }
+
   getfavs(login: string): Observable<any>{
     return this.http.post(backendip + backendport + '/getfavourites', {
       "login":login
     })
   }
-//updatefavourites
+
   updatefavourites(login: string, favs: string): Observable<any>{
     return this.http.post(backendip + backendport + '/updatefavourites', {
       "login":login,
@@ -126,6 +135,6 @@ export class HttpService {
 
 }
 
-export const backendip = 'http://localhost';
-//export const backendip = 'http://194.58.103.233';
+//export const backendip = 'http://localhost';
+export const backendip = 'http://194.58.103.233';
 export const backendport = ':3001';

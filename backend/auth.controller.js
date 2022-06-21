@@ -42,7 +42,7 @@ const postRegister = (req, res, next) =>{
                         db.query(
                             `INSERT INTO Users (login, password, level) VALUES (${db.escape(
                                 req.body.login
-                            )}, ${db.escape(hash)}, 1)`,
+                            )}, ${db.escape(hash)}, 0)`,
                             (err, result) => {
                                 if (err) {
                                     
@@ -177,7 +177,8 @@ const postLogin = (req, res, next) => {
                         return res.status(200).send({
                             msg: 'Logged in!',
                             token,
-                            user: result[0].login
+                            user: result[0].login,
+                            level: result[0].level
                         });
                     }
                     return res.status(401).send({
@@ -209,14 +210,14 @@ const postGetUser = (req, res, next) => {
             message:"Unable to verify token"
         })
     }
-    db.query('SELECT login FROM Users where id=?', decoded.id, function (error, results, fields) {
+    db.query('SELECT * FROM Users where id=?', decoded.id, function (error, results, fields) {
         if (error) {
             console.log(error)
             return res.send({
                 message: 'error getting users'
             })
         };
-        return res.send({ error: false, login: results[0].login, message: 'Fetch Successfully.' });
+        return res.send({ error: false, login: results[0].login,  level: results[0].level, message: 'Fetch Successfully.' });
     });
 }
 

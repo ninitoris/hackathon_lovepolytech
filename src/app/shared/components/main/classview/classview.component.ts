@@ -28,7 +28,7 @@ export class ClassviewComponent implements OnInit {
   @Input() displayClassView: boolean;
   @Input() emitClassNum: number;
 
-  @Output() closeShadowbox = new EventEmitter<boolean>();
+  @Output() closeShadowbox = new EventEmitter();
 
   
 
@@ -145,13 +145,17 @@ export class ClassviewComponent implements OnInit {
       this.icon  = 'star'
     }
       //send array to db
-      console.log(this.favs)
-      this.http.updatefavourites(this.login,this.favs.join(',')).subscribe((res)=>{
+      this.authService.username$.subscribe(res=>{
         console.log(res)
-      },err=>{
-        this.router.navigate(['/login']);
-        console.log(err)
+        console.log(this.favs)
+        this.http.updatefavourites(res,this.favs.join(',')).subscribe((res)=>{
+          console.log(res)
+        },err=>{
+          this.router.navigate(['/login']);
+          console.log(err)
+        })
       })
+      
   }
 
 

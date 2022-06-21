@@ -18,6 +18,7 @@ export class ProfileComponent implements OnInit {
 
 
   user: string;
+  level: number;
 
   ngOnInit(): void {
     this.getProfileInfo()
@@ -32,6 +33,7 @@ export class ProfileComponent implements OnInit {
     this.authService.getUser().subscribe((r) =>
     {
       this.user = r.login;
+      this.level = r.level;
 
     },err =>{
       if (err.status == 401){

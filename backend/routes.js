@@ -40,6 +40,7 @@ let routes = (app) => {
   router.post('/updatesubclasses', datacontroller.updateSubClasses);
   router.post('/updategroups', datacontroller.updateGroups);
   router.post('/updatesubgroups', datacontroller.updateSubGroups);
+  router.post('/updateTypes', datacontroller.updateTypes);
 
   router.get("/users", datacontroller.getUsers);
   router.get("/oauth", auth.getForgeToken);

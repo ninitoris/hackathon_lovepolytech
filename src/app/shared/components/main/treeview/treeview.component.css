@@ -22,10 +22,11 @@
     margin-left: 2em;
 }
 .treeNavMenucontainer{
-    display: block;
+    display: inline-block;
     width: 100%;
     margin: 1em 0;
     padding: 0 0 2em 0;
+    text-align: end;
   }
 
 
@@ -34,3 +35,7 @@
     display: inline-block;  
   }
   
+  .btn-select-class{
+    margin: 0 1em;
+
+  }

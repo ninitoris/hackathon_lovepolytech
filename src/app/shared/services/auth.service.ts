@@ -18,6 +18,9 @@ export class AuthService {
   private _username$ = new BehaviorSubject<string>('');
   username$ = this._username$.asObservable();
   
+  private _level$ = new BehaviorSubject<string>('');
+  level$ = this._level$.asObservable();
+
   constructor(public http: HttpClient, public router: Router) { 
     const token = localStorage.getItem('AUTH_TOKEN')
 
@@ -38,7 +41,8 @@ export class AuthService {
     //const expiresAt = moment().add(authResult.expiresIn,'second');
     localStorage.setItem('AUTH_TOKEN', authResult.token);
     this._username$.next(authResult.user)
-
+    this._level$.next(authResult.level)
+    
     // localStorage.setItem('expiresIn', authResult.expiresIn);
     //localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()) );
   } 
@@ -53,6 +57,8 @@ export class AuthService {
       this.getUser().subscribe((r) =>
       {
         this._username$.next(r.login) 
+        this._level$.next(r.level)
+
       },err =>{
         this.logout()
         this._username$.next('Войти')
@@ -63,14 +69,13 @@ export class AuthService {
 
 logout() {
   localStorage.removeItem("AUTH_TOKEN");
+  this._username$.next('')
+  this._isLoggedIn$.next(false)
   // localStorage.removeItem("expires_at");
 }
 
 public isLoggedIn() {
-  let token = localStorage.getItem('AUTH_TOKEN');
-  if (token){
-    return true
-  }else return false
+  return this.isLoggedIn;
   
 }
 

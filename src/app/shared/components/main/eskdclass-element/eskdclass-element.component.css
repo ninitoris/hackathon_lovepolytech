@@ -7,7 +7,7 @@
     border: 0px solid black; 
     justify-content: center;
     max-width: inherit;
-    display: inline-block;
+    display: block;
 }
 
 .element-container{
@@ -16,10 +16,17 @@
 }
 .element-container img{
     max-width: 100%;
-    aspect-ratio: 1/1;
-    border: 1px solid black;
     object-fit: contain;
-    
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.image-container{
+    border: 1px solid black;
+    aspect-ratio: 1/1;
+}
+.image-container img{
+    height: 100%;
 }
 .element-container:hover{
     cursor: pointer;
