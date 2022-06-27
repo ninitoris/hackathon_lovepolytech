@@ -244,10 +244,8 @@ typesArr : {num: number, description: string, urn?: string, pictureLink?: string
     //if not valid
     // stop here if form is invalid
     if (this.addClassForm.invalid) {
-      console.log('инвалид')
       return;
     } 
-    console.log('сам ты инвалид')
 
     let filename = this.fileToUpload?.name ;
     // console.log(filename)
@@ -457,7 +455,7 @@ typesArr : {num: number, description: string, urn?: string, pictureLink?: string
 
   typeIsNotEmpty(control: AbstractControl): ValidationErrors | null{
     let typeVal = control.get('typeDesc')?.value;
-    console.log(typeVal)
+    //console.log(typeVal)
     if (typeVal == undefined){
       return {typeValEmpty: true}
     }else

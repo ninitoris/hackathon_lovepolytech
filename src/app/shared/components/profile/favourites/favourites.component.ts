@@ -115,10 +115,7 @@ export class FavouritesComponent implements OnInit {
     this.treeDisplay = "none";
     this.classviewdisplay = "none";
     this.shadowDisplay = "none";
-    this.drawingDisplay = "none";
-    // this.forgeViewerDisplay = "block"
-    //console.log('qweqeqweqw');
-    
+    this.drawingDisplay = "none";    
   }
 
   HideShadowBox(){

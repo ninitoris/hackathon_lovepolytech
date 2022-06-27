@@ -107,7 +107,7 @@ export class MainComponent implements OnInit {
     let newVal = event.target.value;
     if (newVal === ""){
       this.currentParent = 0;
-      console.log(this.currentParent)
+      //console.log(this.currentParent)
     }else{
       this.currentParent = newVal;
     }
@@ -116,7 +116,7 @@ export class MainComponent implements OnInit {
   }
 
   onSearchInput(event: any){
-    console.log('input event fired ' + event.target.value)
+    //console.log('input event fired ' + event.target.value)
     if(this.searchCat == ""){
       this.currentParent = 0;
       this.filterArr(this.searchCat)
@@ -224,7 +224,7 @@ export class MainComponent implements OnInit {
           this.substrArray.push(substr)
         }
     }
-    console.log(this.substrArray)
+    //console.log(this.substrArray)
   }
 
   HideShadowBox(){
@@ -321,7 +321,9 @@ export class MainComponent implements OnInit {
       res.forEach((el: any) => {
         el.parent = el.num.toString().substring(0, 5) * 1;
       });
+      //console.log(res)
       this.types = res;
+      //console.log(this.types)
       this.treeclass = this.treeclass.concat(res);
       //console.log(this.types);
     });
@@ -329,6 +331,7 @@ export class MainComponent implements OnInit {
 
     this.http.getTypes().subscribe((res: any) => {
       this.elArray = res;
+
       this.elArrayFilered = res;
       //console.log(this.elArray)
       this.currentItemsToShow = this.elArray.slice(0, 12);
